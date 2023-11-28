@@ -10,9 +10,9 @@ const CarGroupList = ({navigation}) => {
     const [filterText, setFilterText] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
 
-    const onGroupClick = () => {
+    const onGroupClick = (carGroup) => {
         console.log('navigate to group details');
-        navigation.navigate('CarGroupDetail');
+        navigation.navigate('CarGroupDetail', {carGroup: carGroup});
     }
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const CarGroupList = ({navigation}) => {
             {/* List with meets (clickable) */}
             <ScrollView>
                 {filteredList.map(group => (
-                    <ListItem key={group.id} bottomDivider onPress={() => onGroupClick()}>
+                    <ListItem key={group.id} bottomDivider onPress={() => onGroupClick(group)}>
                         <ListItem.Content>
                             <ListItem.Title>{`${group.Id} - ${group.Name}`}</ListItem.Title>
                             <ListItem.Subtitle>{`${group.Land}`}</ListItem.Subtitle>

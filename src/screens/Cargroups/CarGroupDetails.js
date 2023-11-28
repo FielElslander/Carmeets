@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
 
-const CarGroupDetails = () => {
+const CarGroupDetails = (props) => {
+
     return (
         <View>
             {/* TITLE */}
