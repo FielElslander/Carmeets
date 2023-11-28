@@ -18,8 +18,9 @@ import Settings from '../screens/Settings';
 const Tab = createBottomTabNavigator();
 export default function Navigator(){
     return(
-        <Tab.Navigator>
+        <Tab.Navigator initialRouteName='Meetlist'>
             <Tab.Screen name="Meetlist" component={DetailNavigator} options={{
+                headerShown: false,
                 tabBarLabel: 'Carmeets',
                 tabBarIcon: ({color, size}) => (
                     <Ionicons
@@ -28,6 +29,7 @@ export default function Navigator(){
                 )
             }}/>
             <Tab.Screen name="CarGroups" component={CarGroupDetailsNavigator} options={{
+                headerShown: false,
                 tabBarLabel: 'Cargroups',
                 tabBarIcon: ({color, size}) => (
                     <MaterialIcons
@@ -36,6 +38,7 @@ export default function Navigator(){
                 )
             }}/>
             <Tab.Screen name="Cars" component={CarList} options={{
+                headerShown: false,
                 tabBarLabel: 'Cars',
                 tabBarIcon: ({color, size}) => (
                     <Ionicons
@@ -44,6 +47,7 @@ export default function Navigator(){
                 )
             }}/>
             <Tab.Screen name="Profile" component={RootNavigator} options={{
+                headerShown: false,
                 tabBarLabel: 'Profile',
                 tabBarIcon: ({color, size}) => (
                     <Ionicons
@@ -84,7 +88,7 @@ export const RootNavigator = () => {
         <Navigator></Navigator>,
         <RootStack.Navigator>
             <RootStack.Group screenOptions={{presentation: 'modal'}}>
-                <RootStack.Screen name="Profile" component={Profile}/>
+                <RootStack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
                 <RootStack.Screen name="Settings" component={Settings}/>
             </RootStack.Group>
         </RootStack.Navigator>

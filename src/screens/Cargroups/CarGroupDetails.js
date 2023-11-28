@@ -3,6 +3,13 @@ import { StyleSheet, View, Image, Text } from 'react-native';
 
 const CarGroupDetails = (props) => {
 
+    const {
+        id,
+        name,
+        land,
+        members
+    } = props.route.params.carGroup;
+
     return (
         <View>
             {/* TITLE */}
