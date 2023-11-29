@@ -43,7 +43,7 @@ const CarGroupList = ({navigation}) => {
                 {filteredList.map(group => (
                     <ListItem key={group.id} bottomDivider onPress={() => onGroupClick(group)}>
                         <ListItem.Content>
-                            <ListItem.Title>{`${group.Id} - ${group.Name}`}</ListItem.Title>
+                            <ListItem.Title>{`${group.id} - ${group.name}`}</ListItem.Title>
                             <ListItem.Subtitle>{`${group.Land}`}</ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>

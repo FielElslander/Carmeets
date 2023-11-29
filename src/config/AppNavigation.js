@@ -88,7 +88,7 @@ export const RootNavigator = () => {
         <Navigator></Navigator>,
         <RootStack.Navigator>
             <RootStack.Group screenOptions={{presentation: 'modal'}}>
-                <RootStack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
+                <RootStack.Screen name="Profile" component={Profile}/>
                 <RootStack.Screen name="Settings" component={Settings}/>
             </RootStack.Group>
         </RootStack.Navigator>

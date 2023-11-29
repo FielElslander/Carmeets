@@ -11,9 +11,9 @@ const Meetlist = ({navigation}) => {
     const [filterText, setFilterText] = useState('');
     const [filteredList, setFilteredList] = useState([]);
 
-    const onMeetClick = () => {
+    const onMeetClick = (carMeet) => {
         console.log('onMeetClick.called');
-        navigation.navigate('MeetDetail');
+        navigation.navigate('MeetDetail', {carMeet: carMeet});
     }
 
     useEffect(() => {
@@ -33,7 +33,6 @@ const Meetlist = ({navigation}) => {
     return (
         <View>
             {/* TITLE */}
-            <Text>Meetlist</Text>
             {/* Input field for filtering based on location? */}
             <TextInput
                 placeholder="Search carmeets"
@@ -42,7 +41,7 @@ const Meetlist = ({navigation}) => {
             {/* List with meets (clickable) */}
             <ScrollView>
                 {filteredList.map(meet => (
-                    <ListItem key={meet.Id} bottomDivider onPress={() => onMeetClick()}>
+                    <ListItem key={meet.Id} bottomDivider onPress={() => onMeetClick(meet)}>
                         <ListItem.Content>
                             <ListItem.Title>{`${meet.Id} - ${meet.Name}`}</ListItem.Title>
                             <ListItem.Subtitle>{`${meet.Date} - ${meet.Location}`}</ListItem.Subtitle>
