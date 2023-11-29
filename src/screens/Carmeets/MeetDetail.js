@@ -5,7 +5,7 @@ import { ListItem } from 'react-native-elements';
 const MeetDetail = ({route, navigation}) => {
 
     const [displayedMeet, setDisplayedMeet] = useState(route.params.carMeet);
-
+    const [carMeets, setCarMeets] = useState([])
     const [randomCarMeets, setRandomCarMeets] = useState([])
 
     const getRandomCarMeets = (carmeetList) => {
@@ -17,11 +17,11 @@ const MeetDetail = ({route, navigation}) => {
         fetch('https://raw.githubusercontent.com/FielElslander/JsonTestData/main/Carmeets.json')
         .then(res => res.json())
         .then(data => {
-
+            setCarMeets(data)
             const randomCarMeets = getRandomCarMeets(data);
             setRandomCarMeets(randomCarMeets)
         });
-    }, []);
+    }, [displayedMeet]);
 
     const onMeetClick = (carMeet) => {
         console.log('onMeetClick.called');
