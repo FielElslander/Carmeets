@@ -30,7 +30,7 @@ const MeetDetail = ({route, navigation}) => {
 
     return (
         <View>
-            {/* TITLE */}
+            {/* Delete button to make them delete */}
             <Text>{`Carmeet ${displayedMeet.Id}: ${displayedMeet.Name} - ${Date}`}</Text>            
             <Text>{`Place: ${displayedMeet.Location} - (${displayedMeet.Land})`}</Text>            
             <Text>{`Price: ${displayedMeet.Income} - amount of spots: ${displayedMeet.Parkingspots}`}</Text>

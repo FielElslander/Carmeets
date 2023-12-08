@@ -31,10 +31,9 @@ const CarGroupList = ({navigation}) => {
 
     return (
         <View>
-            {/* TITLE */}
-            <Text>ListCarGroups</Text>
             {/* Input field for filtering based on location? */}
             <TextInput
+                style={styles.searchContainer}
                 placeholder='Search cargroups'
                 value={filterText}
                 onChangeText={updateList} />
@@ -52,5 +51,15 @@ const CarGroupList = ({navigation}) => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    searchContainer: {
+        height: 40,
+        borderWidth: 1,
+        borderColor: 'gray',
+        paddingHorizontal: 10,
+        marginBottom: 10
+    }
+})
 
 export default CarGroupList;

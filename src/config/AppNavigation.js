@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';  
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -12,13 +13,20 @@ import CarGroupDetails from '../screens/Cargroups/CarGroupDetails';
 import CarGroupList from '../screens/Cargroups/CarGroupList';
 import CarList from '../screens/Cars/CarList';
 import Settings from '../screens/Settings';
+import Login from '../screens/Login';
+import Register from '../screens/Register';
 //-----------------------------------------------------------
+
+// theme
+import { useTheme } from '../constants/theme.style'
 
 // tab navigation (main navigation)
 const Tab = createBottomTabNavigator();
 export default function Navigator(){
+    const {theme } = useTheme();
+    const styles = getStyles(theme);
     return(
-        <Tab.Navigator initialRouteName='Meetlist'>
+        <Tab.Navigator screenOptions={{tabBarStyle: styles.container, tabBarActiveTintColor: theme.HIGHLIGHT_COLOR}} initialRouteName='Meetlist'>
             <Tab.Screen name="Meetlist" component={DetailNavigator} options={{
                 headerShown: false,
                 tabBarLabel: 'Carmeets',
@@ -65,7 +73,7 @@ export const DetailNavigator = () => {
     return (
         <DetailStack.Navigator>
             <DetailStack.Screen name="Meetlist" component={Meetlist}/>
-            <DetailStack.Screen name="MeetDetail" component={MeetDetail}/>
+            <DetailStack.Screen name="MeetDetail" component={MeetDetail} options={({ route }) => ({ title: route.params.carMeet.Name})}/>
         </DetailStack.Navigator>
     )
 }
@@ -90,7 +98,19 @@ export const RootNavigator = () => {
             <RootStack.Group screenOptions={{presentation: 'modal'}}>
                 <RootStack.Screen name="Profile" component={Profile}/>
                 <RootStack.Screen name="Settings" component={Settings}/>
+                <RootStack.Screen name="Login" component={Login}/>
+                <RootStack.Screen name="Register" component={Register}/>
             </RootStack.Group>
         </RootStack.Navigator>
     );
+}
+
+const getStyles = (theme) => {
+    const styles = StyleSheet.create({
+        container: {
+            backgroundColor: theme.PRIMARY_COLOR
+        }
+    });
+
+    return styles
 }
