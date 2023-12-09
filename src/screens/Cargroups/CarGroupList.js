@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { StyleSheet, View, Image, Text, TextInput, ScrollView } from 'react-native';
-import { Button, ListItem } from 'react-native-elements';
+import { Button, ListItem, Icon } from 'react-native-elements';
 
 
 const CarGroupList = ({navigation}) => {
@@ -33,6 +33,9 @@ const CarGroupList = ({navigation}) => {
         console.log('OnCreateClick');
         navigation.navigate('CreateCarGroup')
     }
+    const onDeleteItem = (id) => {
+        console.log("onDeleteItem")
+    }
 
     return (
         <View>
@@ -53,6 +56,10 @@ const CarGroupList = ({navigation}) => {
                             <ListItem.Title>{`${group.id} - ${group.name}`}</ListItem.Title>
                             <ListItem.Subtitle>{`${group.Land}`}</ListItem.Subtitle>
                         </ListItem.Content>
+                        <Icon
+                            name="trash"
+                            type="font-awesome"
+                            onPress={() => onDeleteItem(group.id)}/>
                     </ListItem>
                 ))}
             </ScrollView>

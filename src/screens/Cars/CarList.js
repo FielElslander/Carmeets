@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Image, Text, TextInput, ScrollView } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { StyleSheet, View, Image, Text, TextInput, ScrollView, Button } from 'react-native';
+import { ListItem, Icon } from 'react-native-elements';
 
-const CarList = () => {
+const CarList = ({navigation}) => {
 
     const [carList, setCars] = useState([]);
     const [filterText, setFilterText] = useState('');
@@ -22,22 +22,41 @@ const CarList = () => {
         setFilteredList(carList.filter(car => car.Brand.toLowerCase().includes(text.toLowerCase()) || car.Model.toLowerCase().includes(text.toLowerCase())));
     };
 
+    const onNavigateCreateClick = () => {
+        console.log("onNavigateCreateClick")
+        navigation.navigate('CreateCar')
+    }
+
+    const onDeleteItem = (id) => {
+        console.log("onDeleteItem")
+    }
+
     return (
         <View>
-            {/* TITLE */}
-            <Text>List of all registered cars</Text>
             {/* Input field for filtering based on location? */}
-            <TextInput
-                placeholder='Search Cars'
-                value={filterText}
-                onChangeText={updateList}/>
+            <>
+                <TextInput
+                    placeholder='Search Cars'
+                    value={filterText}
+                    onChangeText={updateList}/>
+                <Button
+                    title="+"
+                    onPress={onNavigateCreateClick}/>
+            </>
             {/* List with meets (clickable) */}
             <ScrollView>
                 {filteredList.map(car => (
                     <ListItem key={car.Id} bottomDivider>
-                        <ListItem.Title>{`${car.Id} - ${car.Brand} - ${car.Model}`}</ListItem.Title>
-                        <ListItem.Subtitle>{`Year: ${car.Year}`}</ListItem.Subtitle>
-                    </ListItem>
+                        <ListItem.Content>
+                            <ListItem.Title>{`${car.Id} - ${car.Brand} - ${car.Model}`}</ListItem.Title>
+                            <ListItem.Subtitle>{`Year: ${car.Year}`}</ListItem.Subtitle>
+                        </ListItem.Content>
+                        <Icon
+                            name="trash"
+                            type="font-awesome"
+                            onPress={() => onDeleteItem(car.Id)}
+                        />
+                    </ListItem>                    
                 ))}
             </ScrollView>
         </View>

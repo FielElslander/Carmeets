@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
 import { useTheme } from '../../constants/theme.style'
 import { ListItem } from 'react-native-elements';
@@ -12,6 +12,13 @@ const AddCar = ({route, navigation}) => {
     const { toggleTheme, theme } = useTheme();
     const styles = getStyles(theme);
 
+    //refs
+    const brandInputRef = useRef("");
+    const modelInputRef = useRef("");
+    const yearInputRef = useRef("");
+    const horsepowerInputRef = useRef("");
+    const torqueInputRef = useRef("");
+
     //cargroup variables
     const [BrandText, setBrandText]  = useState("");
     const [ModelText, setModelText] = useState("");
@@ -21,6 +28,7 @@ const AddCar = ({route, navigation}) => {
 
     const onCreateClick = () => {
         console.log('onCreateClicked.called');
+
         //owner opvragen -> user die geregistered is
         //make new car with api
     }
@@ -46,30 +54,35 @@ const AddCar = ({route, navigation}) => {
     return (
         <View style={styles.container}>
             <TextInput
+                ref={brandInputRef}
                 style={styles.text}
                 placeholder='Brand'
                 value={BrandText}
                 onChangeText={onChangeBrandText}
             />
             <TextInput
+                ref={modelInputRef}
                 style={styles.text}
                 placeholder='Model'
                 value={locationText}
                 onChangeText={onChangeLocationText}
             />
             <TextInput
+                ref={yearInputRef}
                 style={styles.text}
                 placeholder='Year'
                 value={locationText}
                 onChangeText={onChangeLocationText}
             />
             <TextInput
+                ref={horsepowerInputRef}
                 style={styles.text}
                 placeholder='horsepower'
                 value={HorsepowerText}
                 onChangeText={onChangeHorsepowerText}
             />
             <TextInput
+                ref={torqueInputRef}
                 style={styles.text}
                 placeholder='torque'
                 value={torqueText}

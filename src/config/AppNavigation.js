@@ -30,7 +30,7 @@ export default function Navigator(){
     const styles = getStyles(theme);
     return(
         <Tab.Navigator screenOptions={{tabBarStyle: styles.container, tabBarActiveTintColor: theme.HIGHLIGHT_COLOR}} initialRouteName='Meetlist'>
-            <Tab.Screen name="Meetlist" component={DetailNavigator} options={{
+            <Tab.Screen name="Meetlist" component={CarmeetNavigator} options={{
                 headerShown: false,
                 tabBarLabel: 'Carmeets',
                 tabBarIcon: ({color, size}) => (
@@ -39,7 +39,7 @@ export default function Navigator(){
                     color={color} size={size}/>
                 )
             }}/>
-            <Tab.Screen name="CarGroups" component={CarGroupDetailsNavigator} options={{
+            <Tab.Screen name="CarGroups" component={CargroupNavigator} options={{
                 headerShown: false,
                 tabBarLabel: 'Cargroups',
                 tabBarIcon: ({color, size}) => (
@@ -48,7 +48,7 @@ export default function Navigator(){
                     color={color} size={size}/>
                 )
             }}/>
-            <Tab.Screen name="Cars" component={CarList} options={{
+            <Tab.Screen name="Cars" component={CarNavigator} options={{
                 headerShown: false,
                 tabBarLabel: 'Cars',
                 tabBarIcon: ({color, size}) => (
@@ -71,26 +71,28 @@ export default function Navigator(){
 }
 
 // CarmeetList --> Details
-const DetailStack = createNativeStackNavigator();
-export const DetailNavigator = () => {
+// Carmeetlist --> craete carmeet
+const CarmeetNavStack = createNativeStackNavigator();
+export const CarmeetNavigator = () => {
     return (
-        <DetailStack.Navigator>
-            <DetailStack.Screen name="Meetlist" component={Meetlist}/>
-            <DetailStack.Screen name="MeetDetail" component={MeetDetail} options={({ route }) => ({ title: route.params.carMeet.Name})}/>
-        </DetailStack.Navigator>
+        <CarmeetNavStack.Navigator>
+            <CarmeetNavStack.Screen name="Meetlist" component={Meetlist}/>
+            <CarmeetNavStack.Screen name="MeetDetail" component={MeetDetail} options={({ route }) => ({ title: route.params.carMeet.Name})}/>
+            <CarmeetNavStack.Screen name="CreateCarMeet" component={AddCarmeet} />
+        </CarmeetNavStack.Navigator>
     )
 }
 
 // Cargroupslist --> Details
 // Cargroupslist --> createCargroup
-const CarGroupDetailsStack = createNativeStackNavigator();
-export const CarGroupDetailsNavigator = () => {
+const CargroupNavStack = createNativeStackNavigator();
+export const CargroupNavigator = () => {
     return (
-        <CarGroupDetailsStack.Navigator>
-            <CarGroupDetailsStack.Screen name="Cargroups" component={CarGroupList}/>
-            <CarGroupDetailsStack.Screen name="CarGroupDetail" component={CarGroupDetails}/>
-            <CarGroupDetailsStack.Screen name="CreateCarGroup" component={AddCargroup} />
-        </CarGroupDetailsStack.Navigator>
+        <CargroupNavStack.Navigator>
+            <CargroupNavStack.Screen name="Cargroups" component={CarGroupList}/>
+            <CargroupNavStack.Screen name="CarGroupDetail" component={CarGroupDetails}/>
+            <CargroupNavStack.Screen name="CreateCarGroup" component={AddCargroup} />
+        </CargroupNavStack.Navigator>
     )
 }
 
@@ -111,7 +113,15 @@ export const RootNavigator = () => {
 }
 
 //carlist --> addCars
-
+const CarNavStack = createNativeStackNavigator();
+export const CarNavigator = () => {
+    return (
+        <CarNavStack.Navigator>
+            <CarNavStack.Screen name="cars" component={CarList} />
+            <CarNavStack.Screen name="CreateCar" component={AddCar} />
+        </CarNavStack.Navigator>
+    )
+}
 
 //cargrouplist --> addCarGroup
 

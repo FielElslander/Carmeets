@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image, Text, Button, ScrollView, TextInput } from 'react-native';
-import { ListItem } from 'react-native-elements';
-import { FlatList } from 'react-native-web';
+import { ListItem, Icon } from 'react-native-elements';
 
 
 
@@ -30,14 +29,28 @@ const Meetlist = ({navigation}) => {
         setFilteredList(meetlist.filter(meet => meet.Name.toLowerCase().includes(text.toLowerCase())));
     }
 
+    const onNavigateCreateClick = () => {
+        console.log('OnCreateClick');
+        navigation.navigate('CreateCarMeet')
+    }
+
+    const onDeleteItem = (id) => {
+        console.log("onDeleteItem")
+    }
+
     return (
         <View>
             {/* TITLE */}
             {/* Input field for filtering based on location? */}
-            <TextInput
-                placeholder="Search carmeets"
-                value={filterText}
-                onChangeText={updatelist}/>
+            <>
+                <TextInput
+                    placeholder="Search carmeets"
+                    value={filterText}
+                    onChangeText={updatelist}/>
+                <Button
+                    title="+"
+                    onPress={onNavigateCreateClick}/>
+            </>
             {/* List with meets (clickable) */}
             <ScrollView>
                 {filteredList.map(meet => (
@@ -46,6 +59,10 @@ const Meetlist = ({navigation}) => {
                             <ListItem.Title>{`${meet.Id} - ${meet.Name}`}</ListItem.Title>
                             <ListItem.Subtitle>{`${meet.Date} - ${meet.Location}`}</ListItem.Subtitle>
                         </ListItem.Content>
+                        <Icon
+                            name="trash"
+                            type="font-awesome"
+                            onPress={() => onDeleteItem(meet.Id)}/>
                     </ListItem>
                 ))}
             </ScrollView>

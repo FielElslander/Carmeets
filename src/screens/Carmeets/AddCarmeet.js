@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { StyleSheet, View, Image, Text, ScrollView, TextInput, Button } from 'react-native';
 import { useTheme } from '../../constants/theme.style'
 import { ListItem } from 'react-native-elements';
 
@@ -11,6 +11,15 @@ const AddCarmeet = ({route, navigation}) => {
     //theme
     const { toggleTheme, theme } = useTheme();
     const styles = getStyles(theme);
+
+    //refs
+    const dateInputRef = useRef("");
+    const nameInputRef = useRef("");
+    const locationInputRef = useRef("");
+    const priceInputRef = useRef("");
+    const parkingspotsInputRef = useRef("");
+    const starttimeInputRef = useRef("");
+    const endtimeInputRef = useRef("");
 
     //carmeet variables
     const [dateText, setDate] = useState("");    
@@ -26,25 +35,25 @@ const AddCarmeet = ({route, navigation}) => {
         //make new carmeet with api
     }
 
-    onChangeDateText = (text) => {
-            setDate(text);
+    const onChangeDateText = (text) => {
+        setDate(text);
     }
-    onChangeNameText = (text) => {
+    const onChangeNameText = (text) => {
         setName(text);
     }
-    onChangeLocationText = (text) => {
+    const onChangeLocationText = (text) => {
         setLocation(text);
     }
-    onChangePriceText = (text) => {
+    const onChangePriceText = (text) => {
         setPrice(text);
     }
-    onChangeParkingspotsText = (text) => {
+    const onChangeParkingspotsText = (text) => {
         setParkingspots(text);
     }
-    onChangeStartTimeText = (text) => {
+    const onChangeStartTimeText = (text) => {
         setStartTime(text);
     }
-    onChangeEndTimeText = (text) => {
+    const onChangeEndTimeText = (text) => {
         setEndTime(text);
     }
 
@@ -53,45 +62,52 @@ const AddCarmeet = ({route, navigation}) => {
         <View style={styles.container}>
             <TextInput
                 style={styles.text}
+                ref={dateInputRef}
                 placeholder='Date'
                 value={dateText}
-                onChangeText={onChangeDateText}
+                onChangeText={text => onChangeDateText(text)}
             />
             <TextInput
+                ref={nameInputRef}
                 style={styles.text}
                 placeholder='Name'
                 value={nameText}
-                onChangeText={onChangeNameText}
+                onChangeText={text => onChangeNameText(text)}
             />
             <TextInput
+                ref={locationInputRef}
                 style={styles.text}
                 placeholder='Location'
                 value={locationText}
-                onChangeText={onChangeLocationText}
+                onChangeText={text => onChangeLocationText(text)}
             />
             <TextInput
+                ref={priceInputRef}
                 style={styles.text}
                 placeholder='Price'
                 value={priceText}
-                onChangeText={onChangePriceText}
+                onChangeText={text => onChangePriceText(text)}
             />
             <TextInput
+                ref={parkingspotsInputRef}
                 style={styles.text}
                 placeholder='Parkingspots'
                 value={parkingspotsText}
-                onChangeText={onChangeParkingspotsText}
+                onChangeText={text => onChangeParkingspotsText(text)}
             />
             <TextInput
+                ref={starttimeInputRef}
                 style={styles.text}
                 placeholder='Starttime'
                 value={startTimeText}
-                onChangeText={onChangeStartTimeText}
+                onChangeText={text => onChangeStartTimeText(text)}
             />
             <TextInput
+                ref={endtimeInputRef}
                 style={styles.text}
                 placeholder='Endtime'
                 value={endTimeText}
-                onChangeText={onChangeEndTimeText}
+                onChangeText={text => onChangeEndTimeText(text)}
             />
             <Button
                 style={styles.buttonstyle}

@@ -1,81 +1,87 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Image, Text, ScrollView, TextInput, Button } from 'react-native';
-import { useTheme } from '../../constants/theme.style'
+import React, { useEffect, useState, useRef } from 'react';
+import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
+import { useTheme } from '../../constants/theme.style';
 import { ListItem } from 'react-native-elements';
 
-const AddCargroup = ({route, navigation}) => {
-
-    //error message
-    const [errorText, setErrorText] = useState("");
-
-    //theme
+const AddCargroup = ({ route, navigation }) => {
+    const [errorText, setErrorText] = useState('');
     const { toggleTheme, theme } = useTheme();
     const styles = getStyles(theme);
 
-    //cargroup variables
-    const [nameText, setNameText]  = useState("");
+    const nameInputRef = useRef("");
+    const locationInputRef = useRef("");
+
+     const [nameText, setNameText]  = useState("");
     const [locationText, setLocationText] = useState("");
 
+
     const onCreateClick = () => {
-        console.log('onCreateClicked.called');
-        //make new cargroup with api
-    }
+        const name = nameInputRef.current.value;
+        const location = locationInputRef.current.value;
+
+        // Perform validation or API calls here
+        // For demonstration purposes, just console log the inputs
+        console.log('Name:', name);
+        console.log('Location:', location);
+    };
 
     const onChangeNameText = (text) => {
-        setNameText(text);
-    }
-    const onChangeLocationText = (text) => {
-        setLocationText(text);
+        setNameText(text)
     }
 
+    const onChangeLocation = (text) => {
+        setLocationText(text)
+    }
+
+    // Dezelfde ding voor location
 
     return (
         <View style={styles.container}>
             <TextInput
+                ref={nameInputRef}
+                value={nameText}                       
                 style={styles.text}
                 placeholder='Name'
-                value={nameText}
-                onChangeText={onChangeNameText(nameText)}
+                onChangeText={text => onChangeNameText(text)}
             />
             <TextInput
+                ref={locationInputRef}
+                value={locationText}
                 style={styles.text}
                 placeholder='Location'
-                value={locationText}
-                onChangeText={onChangeLocationText(locationText)}
+                onChangeText={text => onChangeLocation(text)}                        
             />
             <Button
-                style={styles.buttonstyle}
-                title="Create Cargroup"
+                style={styles.buttonStyle}
+                title='Create Cargroup'
                 onPress={onCreateClick}
-                buttonstyle={styles.buttonstyle}/>
-            <Text
-                style={styles.text}
-                value={errorText}
+                buttonStyle={styles.buttonStyle}
             />
+            <Text style={styles.text}>{errorText}</Text>
         </View>
-    )
-}
+    );
+};
 
 const getStyles = (theme) => {
     const styles = StyleSheet.create({
         container: {
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 10,
-          paddingTop: 30,
-          backgroundColor: theme.PRIMARY_COLOR
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 10,
+            paddingTop: 30,
+            backgroundColor: theme.PRIMARY_COLOR,
         },
         text: {
-            color: theme.TEXT_COLOR
+            color: theme.TEXT_COLOR,
         },
-        buttonstyle: {
+        buttonStyle: {
             margin: 'auto',
-            backgroundColor: theme.HIGHLIGHT_COLOR
-        }
-      });
-    
-      return styles;
-}
+            backgroundColor: theme.HIGHLIGHT_COLOR,
+        },
+    });
+
+    return styles;
+};
 
 export default AddCargroup;
