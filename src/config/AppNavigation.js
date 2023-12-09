@@ -15,6 +15,9 @@ import CarList from '../screens/Cars/CarList';
 import Settings from '../screens/Settings';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
+import AddCargroup from '../screens/Cargroups/AddCargroup';
+import AddCar from '../screens/Cars/AddCar';
+import AddCarmeet from '../screens/Carmeets/AddCarmeet';
 //-----------------------------------------------------------
 
 // theme
@@ -79,17 +82,19 @@ export const DetailNavigator = () => {
 }
 
 // Cargroupslist --> Details
+// Cargroupslist --> createCargroup
 const CarGroupDetailsStack = createNativeStackNavigator();
 export const CarGroupDetailsNavigator = () => {
     return (
         <CarGroupDetailsStack.Navigator>
             <CarGroupDetailsStack.Screen name="Cargroups" component={CarGroupList}/>
             <CarGroupDetailsStack.Screen name="CarGroupDetail" component={CarGroupDetails}/>
+            <CarGroupDetailsStack.Screen name="CreateCarGroup" component={AddCargroup} />
         </CarGroupDetailsStack.Navigator>
     )
 }
 
-// Profile --> Button for settings
+// Profile --> Settings
 const RootStack = createNativeStackNavigator();
 export const RootNavigator = () => {
     return (
@@ -104,6 +109,11 @@ export const RootNavigator = () => {
         </RootStack.Navigator>
     );
 }
+
+//carlist --> addCars
+
+
+//cargrouplist --> addCarGroup
 
 const getStyles = (theme) => {
     const styles = StyleSheet.create({

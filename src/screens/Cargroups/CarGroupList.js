@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { StyleSheet, View, Image, Text, TextInput, ScrollView } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { Button, ListItem } from 'react-native-elements';
 
 
 const CarGroupList = ({navigation}) => {
@@ -29,14 +29,22 @@ const CarGroupList = ({navigation}) => {
         setFilteredList(groupList.filter(group => group.name.toLowerCase().includes(text.toLowerCase())));
     }
 
+    const OnCreateClick = () => {
+        console.log('OnCreateClick');
+        navigation.navigate('CreateCarGroup')
+    }
+
     return (
         <View>
             {/* Input field for filtering based on location? */}
-            <TextInput
-                style={styles.searchContainer}
-                placeholder='Search cargroups'
-                value={filterText}
-                onChangeText={updateList} />
+            <>
+                <TextInput
+                    style={styles.searchContainer}
+                    placeholder='Search cargroups'
+                    value={filterText}
+                    onChangeText={updateList} />
+                <Button title="+" onPress={OnCreateClick}/>
+            </>
             {/* List with meets (clickable) */}
             <ScrollView>
                 {filteredList.map(group => (

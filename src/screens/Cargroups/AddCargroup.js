@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Image, Text, ScrollView, TextInput, Button } from 'react-native';
 import { useTheme } from '../../constants/theme.style'
 import { ListItem } from 'react-native-elements';
 
@@ -21,11 +21,11 @@ const AddCargroup = ({route, navigation}) => {
         //make new cargroup with api
     }
 
-    onChangeNameText = (text) => {
-        setName(text);
+    const onChangeNameText = (text) => {
+        setNameText(text);
     }
-    onChangeLocationText = (text) => {
-        setLocation(text);
+    const onChangeLocationText = (text) => {
+        setLocationText(text);
     }
 
 
@@ -35,13 +35,13 @@ const AddCargroup = ({route, navigation}) => {
                 style={styles.text}
                 placeholder='Name'
                 value={nameText}
-                onChangeText={onChangeNameText}
+                onChangeText={onChangeNameText(nameText)}
             />
             <TextInput
                 style={styles.text}
                 placeholder='Location'
                 value={locationText}
-                onChangeText={onChangeLocationText}
+                onChangeText={onChangeLocationText(locationText)}
             />
             <Button
                 style={styles.buttonstyle}

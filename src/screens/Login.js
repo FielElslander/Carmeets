@@ -7,7 +7,6 @@ const Login = () => {
 
     const { toggleTheme, theme } = useTheme();
     const styles = getStyles(theme);
-    const { loginUser } = useContext(userContext);
 
     //login states
     const [emailText, setusernameText] = useState("")
@@ -39,7 +38,7 @@ const Login = () => {
             <TextInput
                 style={styles.text}
                 placeholder='Email'
-                value={usernameText}
+                value={emailText}
                 onChangeText={onChangeUserName}
             />
             <TextInput

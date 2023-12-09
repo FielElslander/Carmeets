@@ -7,7 +7,6 @@ const Register = () => {
 
     const { toggleTheme, theme } = useTheme();
     const styles = getStyles(theme);
-    const { registerUser } = useContext(userContext);
 
     //login states
     const [usernameText, setusernameText] = useState("")

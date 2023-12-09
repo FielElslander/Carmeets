@@ -6,12 +6,10 @@ import { ThemeProvider } from './src/constants/theme.style';
 import { userProvider } from './src/constants/user';
 export default function App() {
   return (
-    <userProvider>
       <ThemeProvider>
         <NavigationContainer>
           <RootNavigator></RootNavigator>
         </NavigationContainer>
       </ThemeProvider>
-    </userProvider>
   );
 }
