@@ -16,13 +16,17 @@ const AddCargroup = ({ route, navigation }) => {
 
 
     const onCreateClick = () => {
-        const name = nameInputRef.current.value;
-        const location = locationInputRef.current.value;
+        //met api toevoegen na controle
+        //checken of groep met bepaalde naam al bestaat via api
 
-        // Perform validation or API calls here
-        // For demonstration purposes, just console log the inputs
-        console.log('Name:', name);
-        console.log('Location:', location);
+
+        //inputfields validation
+        if (nameText != "" && locationText != ""){
+            //post met nieuwe cargroup
+            navigation.navigate('Cargroups');
+        }else{
+            setErrorText("Fill in all required fields!");
+        }
     };
 
     const onChangeNameText = (text) => {
@@ -57,7 +61,7 @@ const AddCargroup = ({ route, navigation }) => {
                 onPress={onCreateClick}
                 buttonStyle={styles.buttonStyle}
             />
-            <Text style={styles.text}>{errorText}</Text>
+            <Text style={styles.errorText}>{errorText}</Text>
         </View>
     );
 };
@@ -79,6 +83,9 @@ const getStyles = (theme) => {
             margin: 'auto',
             backgroundColor: theme.HIGHLIGHT_COLOR,
         },
+        errorText: {
+            color: 'red'
+        }
     });
 
     return styles;

@@ -31,7 +31,7 @@ const MeetDetail = ({route, navigation}) => {
     return (
         <View>
             {/* Delete button to make them delete */}
-            <Text>{`Carmeet ${displayedMeet.Id}: ${displayedMeet.Name} - ${Date}`}</Text>            
+            <Text>{`Carmeet ${displayedMeet.Id}: ${displayedMeet.Name} - ${displayedMeet.Date}`}</Text>            
             <Text>{`Place: ${displayedMeet.Location} - (${displayedMeet.Land})`}</Text>            
             <Text>{`Price: ${displayedMeet.Income} - amount of spots: ${displayedMeet.Parkingspots}`}</Text>
             <ScrollView>
@@ -46,7 +46,7 @@ const MeetDetail = ({route, navigation}) => {
             <Text>Some other meetings..</Text>
             <ScrollView horizontal>
                 {randomCarMeets.map((randomCarmeet) => (
-                    <ListItem key={randomCarmeet.Id} bottomDivider onPress={() => onMeetClick(randomCarmeet)}>
+                    <ListItem key={randomCarmeet.id} bottomDivider onPress={() => onMeetClick(randomCarmeet)}>
                         <ListItem.Content>
                             <ListItem.Title>{`${randomCarmeet.Name}`}</ListItem.Title>
                             <ListItem.Subtitle>{`${randomCarmeet.Date} - ${randomCarmeet.Location}`}</ListItem.Subtitle>

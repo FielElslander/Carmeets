@@ -3,8 +3,12 @@ import { StyleSheet, View, Image, Text, Button } from 'react-native';
 import { useTheme } from '../constants/theme.style'
 
 const Settings = () => {
+
+    //dark - light theme
     const { toggleTheme, theme } = useTheme();
     const styles = getStyles(theme);
+
+    
 
     return (
         <View style={styles.container}>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Image, Text, ScrollView, TextInput, Button } from 'react-native';
 import { useTheme } from '../../constants/theme.style'
 import { ListItem } from 'react-native-elements';
+import { useUser } from '../../constants/user';
 
 const AddCar = ({route, navigation}) => {
 
@@ -11,6 +12,9 @@ const AddCar = ({route, navigation}) => {
     //theme
     const { toggleTheme, theme } = useTheme();
     const styles = getStyles(theme);
+
+    //user
+    const { user }  = useUser();
 
     //refs
     const brandInputRef = useRef("");
@@ -22,30 +26,51 @@ const AddCar = ({route, navigation}) => {
     //cargroup variables
     const [BrandText, setBrandText]  = useState("");
     const [ModelText, setModelText] = useState("");
-    const [YearText, setYearText] = useState(0);
-    const [HorsepowerText, setHorsepowerText] = useState(0);
-    const [torqueText, setTorqueText] = useState(0);
+    const [YearText, setYearText] = useState();
+    const [HorsepowerText, setHorsepowerText] = useState();
+    const [torqueText, setTorqueText] = useState();
 
     const onCreateClick = () => {
         console.log('onCreateClicked.called');
+        //get participant based on email
+        //post maken van car
+        //patch voor user
+        setErrorText("");
 
-        //owner opvragen -> user die geregistered is
-        //make new car with api
+        if(BrandText != "" && ModelText != "" && YearText != 0 && HorsepowerText != 0 && torqueText != 0){
+            if (typeof YearText == "string"){
+                setErrorText("Year must be a number.");
+            }
+            if (typeof HorsepowerText == "string"){
+                setErrorText("Horsepower must be a number.");
+            }
+            if (typeof torqueText == "string"){
+                setErrorText("Torque must be a number.");
+            }
+            if(!typeof YearText == "string" && !typeof HorsepowerText == "string" && !typeof torqueText == "string"){
+                 //post van car
+                //patch van participant
+                console.log(navigation);
+                navigation.navigate('cars');
+            }
+        } else {
+            setErrorText("Fill in all required fields");
+        }
     }
 
-    onChangeBrandText = (text) => {
+    const onChangeBrandText = (text) => {
         setBrandText(text);
     }
-    onChangeModelText = (text) => {
+    const onChangeModelText = (text) => {
         setModelText(text);
     }
-    onChangeYearText = (text) => {
+    const onChangeYearText = (text) => {
         setYearText(text);
     }
-    onChangeHorsepowerText = (text) => {
+    const onChangeHorsepowerText = (text) => {
         setHorsepowerText(text);
     }
-    onChangeTorqueText = (text) => {
+    const onChangeTorqueText = (text) => {
         setTorqueText(text);
     }
 
@@ -64,15 +89,16 @@ const AddCar = ({route, navigation}) => {
                 ref={modelInputRef}
                 style={styles.text}
                 placeholder='Model'
-                value={locationText}
-                onChangeText={onChangeLocationText}
+                value={ModelText}
+                onChangeText={onChangeModelText}
             />
             <TextInput
                 ref={yearInputRef}
                 style={styles.text}
                 placeholder='Year'
-                value={locationText}
-                onChangeText={onChangeLocationText}
+                value={YearText}
+                onChangeText={onChangeYearText}
+                type='number'
             />
             <TextInput
                 ref={horsepowerInputRef}
@@ -80,6 +106,7 @@ const AddCar = ({route, navigation}) => {
                 placeholder='horsepower'
                 value={HorsepowerText}
                 onChangeText={onChangeHorsepowerText}
+                keyboardType='numeric'
             />
             <TextInput
                 ref={torqueInputRef}
@@ -87,6 +114,7 @@ const AddCar = ({route, navigation}) => {
                 placeholder='torque'
                 value={torqueText}
                 onChangeText={onChangeTorqueText}
+                keyboardType='numeric'
             />
             <Button
                 style={styles.buttonstyle}
@@ -94,9 +122,8 @@ const AddCar = ({route, navigation}) => {
                 onPress={onCreateClick}
                 buttonstyle={styles.buttonstyle}/>
             <Text
-                style={styles.text}
-                value={errorText}
-            />
+                style={styles.errorText}
+            >{errorText}</Text>
         </View>
     )
 }
@@ -117,6 +144,9 @@ const getStyles = (theme) => {
         buttonstyle: {
             margin: 'auto',
             backgroundColor: theme.HIGHLIGHT_COLOR
+        },
+        errorText: {
+            color: 'red'
         }
       });
     

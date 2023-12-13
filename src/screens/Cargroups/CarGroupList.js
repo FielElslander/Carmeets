@@ -2,14 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { StyleSheet, View, Image, Text, TextInput, ScrollView } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
+import { useUser } from '../../constants/user';
 
 
 const CarGroupList = ({navigation}) => {
 
+    //variables
     const [groupList, setGroups] = useState([]);
     const [filterText, setFilterText] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
 
+    //user
+    const {user} = useUser();
+
+
+    //functions
     const onGroupClick = (carGroup) => {
         console.log('navigate to group details');
         navigation.navigate('CarGroupDetail', {carGroup: carGroup});

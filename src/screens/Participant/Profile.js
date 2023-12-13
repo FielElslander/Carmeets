@@ -1,11 +1,16 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text, Button } from 'react-native';
 import { useTheme } from '../../constants/theme.style'
+import { useUser } from '../../constants/user';
 
 const Profile = ({navigation}) => {
 
+    //dark - light theme
     const { toggleTheme, theme } = useTheme();
     const styles = getStyles(theme);
+
+    //user
+    const { user, logout } = useUser();
 
     const handleSettingsPress = () => {
         console.log('handleSettingsPressed');
@@ -24,31 +29,48 @@ const Profile = ({navigation}) => {
 
     const handleLogoutPress = () => {
         console.log('handleLogoutPressed');
+        logout();
     }
 
-    return (
-        <View>
-            <Text>This is my profile</Text>
-            <Button
-                title="Login"
-                onPress={handleLoginPress}
-                buttonstyle={styles.buttonstyle}/>
-            <Button
-                title="Register"
-                onPress={handleRegisterPress}
-                buttonstyle={styles.buttonstyle}/>
-            <Button 
-                title="Settings"
-                onPress={handleSettingsPress}
-                buttonstyle={styles.buttonstyle}
-            />
-            <Button
-                title="Logout"
-                onPress={handleLogoutPress}
-                buttonstyle={styles.buttonstyle}
-            />
-        </View>
-    )
+    if(user == null){
+        return (
+
+            <View>
+                <Text>This is my profile</Text>
+                <Button
+                    title="Login"
+                    onPress={handleLoginPress}
+                    buttonstyle={styles.buttonstyle}/>
+                <Button
+                    title="Register"
+                    onPress={handleRegisterPress}
+                    buttonstyle={styles.buttonstyle}/>
+                <Button 
+                    title="Settings"
+                    onPress={handleSettingsPress}
+                    buttonstyle={styles.buttonstyle}
+                />
+            </View>
+        )
+    }
+    else{
+        return (
+
+            <View>
+                <Text>This is my profile</Text>
+                <Button 
+                    title="Settings"
+                    onPress={handleSettingsPress}
+                    buttonstyle={styles.buttonstyle}
+                />
+                <Button
+                    title="Logout"
+                    onPress={handleLogoutPress}
+                    buttonstyle={styles.buttonstyle}
+                />
+            </View>
+        )
+    }  
 }
 
 

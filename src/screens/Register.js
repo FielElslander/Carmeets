@@ -1,16 +1,19 @@
 import React, {useState} from 'react';
 import { StyleSheet, View, Image, Text, Button, TextInput } from 'react-native';
 import { useTheme } from '../constants/theme.style'
-import { userContext } from '../constants/user';
+import { useUser } from '../constants/user';
 
-const Register = () => {
+const Register = ({navigation}) => {
 
     const { toggleTheme, theme } = useTheme();
     const styles = getStyles(theme);
 
+    //user
+    const { LoginOrRegister } = useUser();
+
     //login states
     const [usernameText, setusernameText] = useState("")
-    const [phonenumberText, setphonenumberText] = useState("")
+    const [emailText, setEmailText] = useState("")
     const [passwordText, setpasswordText] = useState("")
     
     //error message
@@ -20,8 +23,8 @@ const Register = () => {
         setusernameText(text);
     }
 
-    const onChangePhonenumber = (text) => {
-        setphonenumberText(text);
+    const onChangeEmail = (text) => {
+        setEmailText(text);
     }
 
     const onChangePassword = (text) => {
@@ -30,10 +33,26 @@ const Register = () => {
 
     const handleRegisterPress = () => {
         console.log("Registerbuttonpressed");
-        //api call doen via email
-        //als hij iets returned -> errormessage -> "user already exist"
-        //als hij niet returned -> nieuwe user aanmaken
-        //registerUser(newuser)
+        //get by email -> alsj iets terug krijgt -> error user bestaat al
+        //als dat nie zo is doe je post
+        const User = {
+            name: usernameText,
+            email: emailText,
+            password: passwordText
+        }
+        if (usernameText != "" && emailText != "" && passwordText != "") {
+            if(emailText.indexOf("@") !== -1 && emailText.indexOf(".") !== -1) {   
+                LoginOrRegister(User);
+                setErrorText("");
+                navigation.navigate('Profile');
+                //hier post doen
+            } else{
+                setErrorText("Email not valid.");
+            }
+        }
+        else{
+            setErrorText("Fill in all required fields!")
+        }
     }
 
     return (
@@ -46,13 +65,14 @@ const Register = () => {
             />
             <TextInput
                 style={styles.text}
-                placeholder='Phonenumber'
-                value={phonenumberText}
-                onChangeText={onChangePhonenumber}
+                placeholder='email'
+                value={emailText}
+                onChangeText={onChangeEmail}
             />
                 <TextInput
                 style={styles.text}
                 placeholder='Password'
+                secureTextEntry="true"
                 value={passwordText}
                 onChangeText={onChangePassword}
             />
@@ -62,9 +82,8 @@ const Register = () => {
                 onPress={handleRegisterPress}
                 buttonstyle={styles.buttonstyle}/>
             <Text
-                style={styles.text}
-                value={errorText}
-            />
+                style={styles.errortext}
+            >{errorText}</Text>
         </View>
     )
 }
@@ -85,6 +104,9 @@ const getStyles = (theme) => {
         buttonstyle: {
             margin: 'auto',
             backgroundColor: theme.HIGHLIGHT_COLOR
+        },
+        errortext: {
+            color: "red"
         }
       });
     

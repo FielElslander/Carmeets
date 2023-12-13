@@ -29,7 +29,7 @@ export default function Navigator(){
     const {theme } = useTheme();
     const styles = getStyles(theme);
     return(
-        <Tab.Navigator screenOptions={{tabBarStyle: styles.container, tabBarActiveTintColor: theme.HIGHLIGHT_COLOR}} initialRouteName='Meetlist'>
+        <Tab.Navigator screenOptions={{tabBarStyle: styles.container, tabBarActiveTintColor: theme.HIGHLIGHT_COLOR}}>
             <Tab.Screen name="Meetlist" component={CarmeetNavigator} options={{
                 headerShown: false,
                 tabBarLabel: 'Carmeets',
@@ -100,7 +100,6 @@ export const CargroupNavigator = () => {
 const RootStack = createNativeStackNavigator();
 export const RootNavigator = () => {
     return (
-        <Navigator></Navigator>,
         <RootStack.Navigator>
             <RootStack.Group screenOptions={{presentation: 'modal'}}>
                 <RootStack.Screen name="Profile" component={Profile}/>

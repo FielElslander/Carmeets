@@ -1,16 +1,20 @@
 import React, {useState} from 'react';
 import { StyleSheet, View, Image, Text, Button, TextInput } from 'react-native';
 import { useTheme } from '../constants/theme.style'
-import { userContext } from '../constants/user'
+import { useUser } from '../constants/user';
 
-const Login = () => {
+const Login = ({navigation}) => {
 
+    //themes
     const { toggleTheme, theme } = useTheme();
     const styles = getStyles(theme);
 
     //login states
     const [emailText, setusernameText] = useState("")
     const [passwordText, setpasswordText] = useState("")
+
+    //user
+    const {LoginOrRegister } = useUser();
 
     //error state
     const [errorText, setErrorText] = useState("")
@@ -25,12 +29,25 @@ const Login = () => {
 
     const handleLoginPress = () => {
         console.log("loginbuttonpressed");
-        //api call naar user met email
-        //als hij niet bestaat -> error message
-        //setErrorText("message");
-        //wel bestaat
-        //state aanpassen en user erin zwieren
-        //loginUser(user);
+        const User = {
+            email: emailText,
+            password: passwordText
+        }
+        if (emailText != "" && passwordText != "") {
+            if(emailText.indexOf("@") !== -1 && emailText.indexOf(".") !== -1) {   
+                //api call get by email
+                //user in login/register steken
+                //bij error ne error tonen
+                LoginOrRegister(User);
+                setErrorText("");
+                navigation.navigate('Profile');
+            } else{
+                setErrorText("Email not valid.");
+            }
+        }
+        else{
+            setErrorText("Fill in all required fields!")
+        }
     }
 
     return (
@@ -45,6 +62,7 @@ const Login = () => {
                 style={styles.text}
                 placeholder='Password'
                 value={passwordText}
+                secureTextEntry="true"
                 onChangeText={onChangePassword}
             />
             <Button
@@ -53,9 +71,8 @@ const Login = () => {
                 onPress={handleLoginPress}
                 buttonstyle={styles.buttonstyle}/>
             <Text
-                style={styles.text}
-                value={errorText}
-            />
+                style={styles.errorText}
+            >{errorText}</Text>
         </View>
     )
 }
@@ -76,6 +93,9 @@ const getStyles = (theme) => {
         buttonstyle: {
             margin: 'auto',
             backgroundColor: theme.HIGHLIGHT_COLOR
+        },
+        errorText: {
+            color: 'red'
         }
       });
     

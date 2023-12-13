@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image, Text, Button, ScrollView, TextInput } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
+import { useUser } from  '../../constants/user';
 
 
 
 const Meetlist = ({navigation}) => {
 
+    //variables
     const [meetlist, setMeets] = useState([]);
     const [filterText, setFilterText] = useState('');
     const [filteredList, setFilteredList] = useState([]);
+
+    //user
+    const { user } = useUser();
 
     const onMeetClick = (carMeet) => {
         console.log('onMeetClick.called');
