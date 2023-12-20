@@ -3,6 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text, Button, ScrollView, TextInput
 import { ListItem, Icon } from 'react-native-elements';
 import { useUser } from  '../../constants/user';
 import { useTheme } from '../../constants/theme.style'
+import { color } from 'react-native-elements/dist/helpers';
 
 
 
@@ -75,8 +76,8 @@ const Meetlist = ({navigation}) => {
                         {filteredList.map(meet => (
                             <ListItem key={meet.Id} containerStyle={styles.listItem} bottomDivider onPress={() => onMeetClick(meet)}>
                                 <ListItem.Content>
-                                    <ListItem.Title>{`${meet.Id} - ${meet.Name}`}</ListItem.Title>
-                                    <ListItem.Subtitle>{`${meet.Date} - ${meet.Location}`}</ListItem.Subtitle>
+                                    <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${meet.Id} - ${meet.Name}`}</ListItem.Title>
+                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${meet.Date} - ${meet.Location}`}</ListItem.Subtitle>
                                     <TouchableOpacity style={styles.participateButton}>
                                         <Text style={styles.buttonText}>Participate!</Text>
                                     </TouchableOpacity>
@@ -84,6 +85,7 @@ const Meetlist = ({navigation}) => {
                                 <Icon
                                     name="trash"
                                     type="font-awesome"
+                                    color={"red"}
                                     onPress={() => onDeleteItem(meet.Id)}/>
                             </ListItem>
                         ))}
@@ -119,12 +121,13 @@ const Meetlist = ({navigation}) => {
                         {filteredList.map(meet => (
                             <ListItem key={meet.Id} containerStyle={styles.listItem} bottomDivider onPress={() => onMeetClick(meet)}>
                                 <ListItem.Content>
-                                    <ListItem.Title style={{color: "white"}}>{`${meet.Id} - ${meet.Name}`}</ListItem.Title>
-                                    <ListItem.Subtitle>{`${meet.Date} - ${meet.Location}`}</ListItem.Subtitle>
+                                    <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${meet.Id} - ${meet.Name}`}</ListItem.Title>
+                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${meet.Date} - ${meet.Location}`}</ListItem.Subtitle>
                                 </ListItem.Content>
                                 <Icon
                                     name="trash"
                                     type="font-awesome"
+                                    color={"red"}
                                     onPress={() => onDeleteItem(meet.Id)}/>
                             </ListItem>
                         ))}
@@ -153,7 +156,8 @@ const getStyles = (theme) => {
             borderRadius: 5,
             backgroundColor: theme.LIST_BG_COLOR,
             color: theme.TEXT_COLOR,
-            marginBottom: 5
+            marginBottom: 5,
+            shadowColor: "black",
         },
         buttonstyle: {
             paddingTop: 5,

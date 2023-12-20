@@ -89,7 +89,7 @@ const CargroupNavStack = createNativeStackNavigator();
 export const CargroupNavigator = () => {
     return (
         <CargroupNavStack.Navigator>
-            <CargroupNavStack.Screen name="Cargroups" component={CarGroupList}/>
+            <CargroupNavStack.Screen name="Cargroups" component={CarGroupList} options={{headerShown: false}}/>
             <CargroupNavStack.Screen name="CarGroupDetail" component={CarGroupDetails}/>
             <CargroupNavStack.Screen name="CreateCarGroup" component={AddCargroup} />
         </CargroupNavStack.Navigator>
