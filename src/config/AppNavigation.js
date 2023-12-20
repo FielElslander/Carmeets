@@ -29,7 +29,7 @@ export default function Navigator(){
     const {theme } = useTheme();
     const styles = getStyles(theme);
     return(
-        <Tab.Navigator screenOptions={{tabBarStyle: styles.container, tabBarActiveTintColor: theme.HIGHLIGHT_COLOR}}>
+        <Tab.Navigator screenOptions={{tabBarStyle: styles.container, tabBarActiveTintColor: theme.HIGHLIGHT_COLOR, tabBarLabelPosition: 'below-icon'}}>
             <Tab.Screen name="Meetlist" component={CarmeetNavigator} options={{
                 headerShown: false,
                 tabBarLabel: 'Carmeets',
@@ -76,7 +76,7 @@ const CarmeetNavStack = createNativeStackNavigator();
 export const CarmeetNavigator = () => {
     return (
         <CarmeetNavStack.Navigator>
-            <CarmeetNavStack.Screen name="Meetlist" component={Meetlist}/>
+            <CarmeetNavStack.Screen name="Meetlist" component={Meetlist} options={{headerShown:  false}}/>
             <CarmeetNavStack.Screen name="MeetDetail" component={MeetDetail} options={({ route }) => ({ title: route.params.carMeet.Name})}/>
             <CarmeetNavStack.Screen name="CreateCarMeet" component={AddCarmeet} />
         </CarmeetNavStack.Navigator>

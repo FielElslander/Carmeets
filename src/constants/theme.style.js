@@ -5,7 +5,11 @@ const LightTheme = {
   SECONDARY_COLOR: '#FFFFFF',
   ACCENT_COLOR: '#000000',
   HIGHLIGHT_COLOR: '#9370DB',
-  TEXT_COLOR: '#000000'
+  TEXT_COLOR: '#000000',
+  BORDER_COLOR: 'black',
+  BUTTON_COLOR: '#9370DB',
+  SEARCHICON_COLOR: '#000',
+  LIST_BG_COLOR: 'white',
 };
 
 const DarkTheme = {
@@ -13,7 +17,11 @@ const DarkTheme = {
   SECONDARY_COLOR: '#555555',
   ACCENT_COLOR: '#FFFFFF',
   HIGHLIGHT_COLOR: '#9370DB',
-  TEXT_COLOR: '#FFFFFF'
+  TEXT_COLOR: '#FFFFFF',
+  BORDER_COLOR: 'white',
+  BUTTON_COLOR: '#9370DB',
+  SEARCHICON_COLOR: 'white',
+  LIST_BG_COLOR: '#a7a7a7',
 };
 
 const ThemeContext = createContext();
