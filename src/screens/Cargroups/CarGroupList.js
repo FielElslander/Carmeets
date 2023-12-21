@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { StyleSheet, View, Image, Text, TextInput, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Image, Text, TextInput, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
 import { useUser } from '../../constants/user';
 import { useTheme } from '../../constants/theme.style';
-import { TouchableOpacity } from 'react-native-web';
 
 
 const CarGroupList = ({navigation}) => {
 
     //variables
     const [groupList, setGroups] = useState([]);
-    const [filterText, setFilterText] = useState([]);
+    const [filterText, setFilterText] = useState("");
     const [filteredList, setFilteredList] = useState([]);
 
     //theme
@@ -20,13 +19,6 @@ const CarGroupList = ({navigation}) => {
 
     //user
     const {user} = useUser();
-
-
-    //functions
-    const onGroupClick = (carGroup) => {
-        console.log('navigate to group details');
-        navigation.navigate('CarGroupDetail', {carGroup: carGroup});
-    }
 
     useEffect(() => {
         fetch('https://raw.githubusercontent.com/FielElslander/JsonTestData/main/Cargroups.json')
@@ -42,6 +34,11 @@ const CarGroupList = ({navigation}) => {
         setFilteredList(groupList.filter(group => group.name.toLowerCase().includes(text.toLowerCase())));
     }
 
+    //functions
+    const onGroupClick = (carGroup) => {
+        console.log('navigate to group details');
+        navigation.navigate('CarGroupDetail', {carGroup: carGroup});
+    }
     const OnCreateClick = () => {
         console.log('OnCreateClick');
         navigation.navigate('CreateCarGroup')
@@ -49,43 +46,89 @@ const CarGroupList = ({navigation}) => {
     const onDeleteItem = (id) => {
         console.log("onDeleteItem")
     }
+    const onJoinClick = (id) => {
+        console.log("onJoinClick");
+    }
     
-    return (
-        <SafeAreaView style={styles.containerParent}>
-            <SafeAreaView style={styles.container}>
-                <Text style={styles.title}>Cargroups</Text>
-                <>
-                    <SafeAreaView style={styles.searchContainer}>
-                        <Icon name="search" size={20} color={theme.SEARCHICON_COLOR} style={{marginRight: 5}} />
-                        <TextInput
-                            style={styles.searchText}
-                            placeholder='Search cargroups'
-                            value={filterText}
-                            onChangeText={updateList} />
-                    </SafeAreaView>
-                    <TouchableOpacity style={styles.buttonstyle} onPress={OnCreateClick}>
-                        <Text style={styles.buttonText}>+</Text>
-                    </TouchableOpacity>
-                </>
-                {/* List with meets (clickable) */}
-                <ScrollView>
-                    {filteredList.map(group => (
-                        <ListItem key={group.id} containerStyle={styles.listItem} bottomDivider onPress={() => onGroupClick(group)}>
-                            <ListItem.Content>
-                                <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${group.id} - ${group.name}`}</ListItem.Title>
-                                <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${group.Land}`}</ListItem.Subtitle>
-                            </ListItem.Content>
-                            <Icon
-                                name="trash"
-                                type="font-awesome"
-                                color={"red"}
-                                onPress={() => onDeleteItem(group.id)}/>
-                        </ListItem>
-                    ))}
-                </ScrollView>
+    if(user != null) {
+        return (
+            <SafeAreaView style={styles.containerParent}>
+                <SafeAreaView style={styles.container}>
+                    <Text style={styles.title}>Cargroups</Text>
+                    <>
+                        <SafeAreaView style={styles.searchContainer}>
+                            <Icon name="search" size={20} color={theme.SEARCHICON_COLOR} style={{marginRight: 5}} />
+                            <TextInput
+                                style={styles.searchText}
+                                placeholder='Search cargroups'
+                                value={filterText}
+                                onChangeText={updateList} />
+                        </SafeAreaView>
+                        <TouchableOpacity style={styles.buttonstyle} onPress={OnCreateClick}>
+                            <Text style={styles.buttonText}>+</Text>
+                        </TouchableOpacity>
+                    </>
+                    {/* List with meets (clickable) */}
+                    <ScrollView>
+                        {filteredList.map(group => (
+                            <ListItem key={group.id} containerStyle={styles.listItem} bottomDivider onPress={() => onGroupClick(group)}>
+                                <ListItem.Content>
+                                    <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${group.id} - ${group.name}`}</ListItem.Title>
+                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${group.Land}`}</ListItem.Subtitle>
+                                    <TouchableOpacity style={styles.joinButton}
+                                    onPress={() => onJoinClick(group.id)}>
+                                        <Text style={styles.buttonText}>Join group!</Text>
+                                    </TouchableOpacity>
+                                </ListItem.Content>
+                                <Icon
+                                    name="trash"
+                                    type="font-awesome"
+                                    color={"red"}
+                                    onPress={() => onDeleteItem(group.id)}/>
+                            </ListItem>
+                        ))}
+                    </ScrollView>
+                </SafeAreaView>
             </SafeAreaView>
-        </SafeAreaView>
-    )
+        )
+    } else {
+        return (
+            <SafeAreaView style={styles.containerParent}>
+                <SafeAreaView style={styles.container}>
+                    <Text style={styles.title}>Cargroups</Text>
+                    <>
+                        <SafeAreaView style={styles.searchContainer}>
+                            <Icon name="search" size={20} color={theme.SEARCHICON_COLOR} style={{marginRight: 5}} />
+                            <TextInput
+                                style={styles.searchText}
+                                placeholder='Search cargroups'
+                                value={filterText}
+                                onChangeText={updateList} />
+                        </SafeAreaView>
+                        <TouchableOpacity style={styles.buttonstyle} onPress={OnCreateClick}>
+                            <Text style={styles.buttonText}>+</Text>
+                        </TouchableOpacity>
+                    </>
+                    {/* List with meets (clickable) */}
+                    <ScrollView>
+                        {filteredList.map(group => (
+                            <ListItem key={group.id} containerStyle={styles.listItem} bottomDivider onPress={() => onGroupClick(group)}>
+                                <ListItem.Content>
+                                    <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${group.id} - ${group.name}`}</ListItem.Title>
+                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${group.Land}`}</ListItem.Subtitle>
+                                </ListItem.Content>
+                                <Icon
+                                    name="trash"
+                                    type="font-awesome"
+                                    color={"red"}
+                                    onPress={() => onDeleteItem(group.id)}/>
+                            </ListItem>
+                        ))}
+                    </ScrollView>
+                </SafeAreaView>
+            </SafeAreaView>
+        )
+    }
 }
 
 const getStyles = (theme) => {
@@ -114,6 +157,7 @@ const getStyles = (theme) => {
             height: 40,
             padding: 5,
             color: theme.TEXT_COLOR,
+            backgroundColor: theme.PRIMARY_COLOR,
             marginBottom: 10
         },
         listItem: {
@@ -128,8 +172,8 @@ const getStyles = (theme) => {
             paddingTop: 20,
             fontSize: 64,
             margin: 'auto',
+            fontWeight: 'bold',
             color: theme.TEXT_COLOR,
-            wordwrap: 'break-word'
         },
         buttonstyle: {
             paddingTop: 5,

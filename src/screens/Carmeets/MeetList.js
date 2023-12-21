@@ -49,6 +49,10 @@ const Meetlist = ({navigation}) => {
         console.log("onDeleteItem")
     }
 
+    const joinMeeting = (id) => {
+        console.log("JoinMeetingpressed");
+    }
+
     if(user != null) {
         return (
             <SafeAreaView style={styles.containerParent}>
@@ -78,7 +82,8 @@ const Meetlist = ({navigation}) => {
                                 <ListItem.Content>
                                     <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${meet.Id} - ${meet.Name}`}</ListItem.Title>
                                     <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${meet.Date} - ${meet.Location}`}</ListItem.Subtitle>
-                                    <TouchableOpacity style={styles.participateButton}>
+                                    <TouchableOpacity style={styles.participateButton}
+                                    onPress={() => joinMeeting(meet.id)}>
                                         <Text style={styles.buttonText}>Participate!</Text>
                                     </TouchableOpacity>
                                 </ListItem.Content>
@@ -174,12 +179,11 @@ const getStyles = (theme) => {
             color: 'white'
         },
         title: {
-            fontWeight: '400',
+            fontWeight: 'bold',
             paddingTop: 20,
             fontSize: 64,
             margin: 'auto',
             color: theme.TEXT_COLOR,
-            wordwrap: 'break-word'
         },
         searchText: {
             flex: 1,

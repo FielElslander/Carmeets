@@ -1,17 +1,23 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
+import { StyleSheet, View, TextInput, Image, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../constants/theme.style';
-import { ListItem } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 
-const AddCargroup = ({ route, navigation }) => {
+
+const AddCargroup = ({navigation}) => {
+
+    //errormessage
     const [errorText, setErrorText] = useState('');
-    const { toggleTheme, theme } = useTheme();
+
+    //theme
+    const { theme } = useTheme();
     const styles = getStyles(theme);
 
+    //inputfields
     const nameInputRef = useRef("");
     const locationInputRef = useRef("");
 
-     const [nameText, setNameText]  = useState("");
+    const [nameText, setNameText]  = useState("");
     const [locationText, setLocationText] = useState("");
 
 
@@ -37,54 +43,105 @@ const AddCargroup = ({ route, navigation }) => {
         setLocationText(text)
     }
 
+    const onNavigateBack = () => {
+        navigation.goBack();
+    }
+
     // Dezelfde ding voor location
 
     return (
-        <View style={styles.container}>
-            <TextInput
-                ref={nameInputRef}
-                value={nameText}                       
-                style={styles.text}
-                placeholder='Name'
-                onChangeText={text => onChangeNameText(text)}
-            />
-            <TextInput
-                ref={locationInputRef}
-                value={locationText}
-                style={styles.text}
-                placeholder='Location'
-                onChangeText={text => onChangeLocation(text)}                        
-            />
-            <Button
-                style={styles.buttonStyle}
-                title='Create Cargroup'
-                onPress={onCreateClick}
-                buttonStyle={styles.buttonStyle}
-            />
-            <Text style={styles.errorText}>{errorText}</Text>
-        </View>
+        <SafeAreaView style={styles.containerParent}>
+            <SafeAreaView style={styles.innerContainer}>
+            <View style={styles.icon}>
+                <Icon name="arrow-back" type='material' color='black' size={30} onPress={() => onNavigateBack()} />
+            </View>
+            <View style={styles.infoContainer}>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        ref={nameInputRef}
+                        value={nameText}                       
+                        style={styles.inputText}
+                        placeholder='Name'
+                        onChangeText={text => onChangeNameText(text)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        ref={locationInputRef}
+                        value={locationText}
+                        style={styles.inputText}
+                        placeholder='Location'
+                        onChangeText={text => onChangeLocation(text)}                        
+                    />
+                </View>
+                <View>
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        onPress={onCreateClick}
+                        >
+                            <Text style={{color: 'white'}}>Create Cargroup</Text>
+                    </TouchableOpacity>
+                </View>               
+                <Text style={styles.errorText}>{errorText}</Text>
+            </View>
+            </SafeAreaView>
+        </SafeAreaView>
     );
 };
 
 const getStyles = (theme) => {
     const styles = StyleSheet.create({
-        container: {
+        containerParent: {
             flex: 1,
-            alignItems: 'center',
             justifyContent: 'center',
-            padding: 10,
-            paddingTop: 30,
-            backgroundColor: theme.PRIMARY_COLOR,
+            backgroundColor: theme.HIGHLIGHT_COLOR,
         },
-        text: {
-            color: theme.TEXT_COLOR,
+        innerContainer: {
+            backgroundColor: theme.LIST_BG_COLOR, // Background color for the inner container
+            margin: 16,
+            padding: 16,
+            width: '80%', // Adjust the percentage based on your preference
+            height: '50%',
+            alignSelf: 'center', // Center the inner container horizontally
+            borderRadius: 10,
+        },
+        infoContainer: {
+            width: '100%',
+            height: '100%',
+        },      
+        icon: {
+            alignSelf: 'flex-start',
+            color: theme.TEXT_COLOR
         },
         buttonStyle: {
             margin: 'auto',
-            backgroundColor: theme.HIGHLIGHT_COLOR,
+            width: '50%',
+            backgroundColor: theme.BUTTON_COLOR,
+            borderRadius: 20,
+            alignSelf: 'center',
+            padding: '5%',
+            alignItems: 'center',
+            justifyContent: 'center',
         },
         errorText: {
-            color: 'red'
+            color: 'red',
+            paddingTop: '25px',
+            textAlign: 'center',
+        },
+        inputContainer: {
+            backgroundColor: theme.PRIMARY_COLOR,
+            borderRadius: 10,
+            marginBottom: 16,
+            width: '60%',
+            height: '10%',
+            alignSelf: 'center',
+        },
+        inputText: {
+            flex:1,
+            height: 40,
+            borderRadius: 10,
+            paddingHorizontal: '5%',
+            color: theme.TEXT_COLOR
         }
     });
 

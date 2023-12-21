@@ -77,8 +77,8 @@ export const CarmeetNavigator = () => {
     return (
         <CarmeetNavStack.Navigator>
             <CarmeetNavStack.Screen name="Meetlist" component={Meetlist} options={{headerShown:  false}}/>
-            <CarmeetNavStack.Screen name="MeetDetail" component={MeetDetail} options={({ route }) => ({ title: route.params.carMeet.Name})}/>
-            <CarmeetNavStack.Screen name="CreateCarMeet" component={AddCarmeet} />
+            <CarmeetNavStack.Screen name="MeetDetail" component={MeetDetail} options={{headerShown: false}}/>
+            <CarmeetNavStack.Screen name="CreateCarMeet" component={AddCarmeet} options={{headerShown: false}} />
         </CarmeetNavStack.Navigator>
     )
 }
@@ -90,8 +90,8 @@ export const CargroupNavigator = () => {
     return (
         <CargroupNavStack.Navigator>
             <CargroupNavStack.Screen name="Cargroups" component={CarGroupList} options={{headerShown: false}}/>
-            <CargroupNavStack.Screen name="CarGroupDetail" component={CarGroupDetails}/>
-            <CargroupNavStack.Screen name="CreateCarGroup" component={AddCargroup} />
+            <CargroupNavStack.Screen name="CarGroupDetail" component={CarGroupDetails} options={{headerShown: false}}/>
+            <CargroupNavStack.Screen name="CreateCarGroup" component={AddCargroup} options={{headerShown: false}} />
         </CargroupNavStack.Navigator>
     )
 }
@@ -116,8 +116,8 @@ const CarNavStack = createNativeStackNavigator();
 export const CarNavigator = () => {
     return (
         <CarNavStack.Navigator>
-            <CarNavStack.Screen name="cars" component={CarList} />
-            <CarNavStack.Screen name="CreateCar" component={AddCar} />
+            <CarNavStack.Screen name="cars" component={CarList} options={{headerShown: false}} />
+            <CarNavStack.Screen name="CreateCar" component={AddCar} options={{headerShown: false}} />
         </CarNavStack.Navigator>
     )
 }
@@ -127,7 +127,7 @@ export const CarNavigator = () => {
 const getStyles = (theme) => {
     const styles = StyleSheet.create({
         container: {
-            backgroundColor: theme.PRIMARY_COLOR
+            backgroundColor: theme.TAB_BAR_COLOR,
         }
     });
 

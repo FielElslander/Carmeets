@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, View, Image, Text, ScrollView, TextInput, Button } from 'react-native';
+import React, {useState, useRef } from 'react';
+import { StyleSheet, View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../constants/theme.style'
-import { ListItem } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 
-const AddCarmeet = ({route, navigation}) => {
+const AddCarmeet = ({navigation}) => {
 
     //error message
     const [errorText, setErrorText] = useState("");
@@ -66,91 +66,151 @@ const AddCarmeet = ({route, navigation}) => {
         setEndTime(text);
     }
 
+    const onNavigateBack = () => {
+        navigation.goBack();
+    }
+
 
     return (
-        <View style={styles.container}>
-            <TextInput
-                style={styles.text}
-                ref={dateInputRef}
-                placeholder='YYYY-MM-DD'
-                value={dateText}
-                onChangeText={text => onChangeDateText(text)}
-            />
-            <TextInput
-                ref={nameInputRef}
-                style={styles.text}
-                placeholder='Carmeet name'
-                value={nameText}
-                onChangeText={text => onChangeNameText(text)}
-            />
-            <TextInput
-                ref={locationInputRef}
-                style={styles.text}
-                placeholder='Location'
-                value={locationText}
-                onChangeText={text => onChangeLocationText(text)}
-            />
-
-            <TextInput
-                ref={priceInputRef}
-                style={styles.text}
-                placeholder='ex. 12 EUR'
-                value={priceText}
-                onChangeText={text => onChangePriceText(text)}
-            />
-            <TextInput
-                ref={parkingspotsInputRef}
-                style={styles.text}
-                placeholder='Amount of parkingspots'
-                value={parkingspotsText}
-                onChangeText={text => onChangeParkingspotsText(text)}
-            />
-            <TextInput
-                ref={starttimeInputRef}
-                style={styles.text}
-                placeholder='hh:mm'
-                value={startTimeText}
-                onChangeText={text => onChangeStartTimeText(text)}
-            />
-            <TextInput
-                ref={endtimeInputRef}
-                style={styles.text}
-                placeholder='hh:mm'
-                value={endTimeText}
-                onChangeText={text => onChangeEndTimeText(text)}
-            />
-            <Button
-                style={styles.buttonstyle}
-                title="Create Carmeet"
-                onPress={onCreateClick}
-                buttonstyle={styles.buttonstyle}/>
-            <Text
-                style={styles.errorText}
-            >{errorText}</Text>
-        </View>
+        <SafeAreaView style={styles.containerParent}>
+            <SafeAreaView style={styles.innerContainer}>
+                <View style={styles.icon}>
+                    <Icon name="arrow-back" type='material' color='black' size={30} onPress={() => onNavigateBack()} />
+                </View>
+                <View style={styles.infoContainer}>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.inputText}
+                            ref={dateInputRef}
+                            placeholder='YYYY-MM-DD'
+                            value={dateText}
+                            onChangeText={text => onChangeDateText(text)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={nameInputRef}
+                            style={styles.inputText}
+                            placeholder='Carmeet name'
+                            value={nameText}
+                            onChangeText={text => onChangeNameText(text)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={locationInputRef}
+                            style={styles.inputText}
+                            placeholder='Location'
+                            value={locationText}
+                            onChangeText={text => onChangeLocationText(text)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={priceInputRef}
+                            style={styles.inputText}
+                            placeholder='ex. 12 EUR'
+                            value={priceText}
+                            onChangeText={text => onChangePriceText(text)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={parkingspotsInputRef}
+                            style={styles.inputText}
+                            placeholder='parkingspots'
+                            value={parkingspotsText}
+                            onChangeText={text => onChangeParkingspotsText(text)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={starttimeInputRef}
+                            style={styles.inputText}
+                            placeholder='Starttime - hh:mm'
+                            value={startTimeText}
+                            onChangeText={text => onChangeStartTimeText(text)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={endtimeInputRef}
+                            style={styles.inputText}
+                            placeholder='Endtime - hh:mm'
+                            value={endTimeText}
+                            onChangeText={text => onChangeEndTimeText(text)}
+                        />
+                    </View>
+                    <View>
+                        <TouchableOpacity
+                            style={styles.buttonstyle}
+                            onPress={onCreateClick}>
+                                <Text>Create carmeet</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Text
+                    style={styles.errorText}
+                    >{errorText}</Text>
+                </View>
+            </SafeAreaView>
+        </SafeAreaView>
     )
 }
 
 const getStyles = (theme) => {
     const styles = StyleSheet.create({
-        container: {
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 10,
-          paddingTop: 30,
-          backgroundColor: theme.PRIMARY_COLOR
+        containerParent: {
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: theme.HIGHLIGHT_COLOR,
         },
-        text: {
+        innerContainer: {
+            backgroundColor: theme.LIST_BG_COLOR,
+            margin: '5%',
+            padding: '5%',
+            width: '80%',
+            height: '80%',
+            alignSelf: 'center',
+            borderRadius: 10
+        },
+        infoContainer: {
+            width: '100%',
+            height: '100%',
+        },
+        icon: {
+            alignSelf: 'flex-start',
             color: theme.TEXT_COLOR
         },
         buttonstyle: {
             margin: 'auto',
-            backgroundColor: theme.HIGHLIGHT_COLOR
+            width: '50%',
+            backgroundColor: theme.BUTTON_COLOR,
+            borderRadius: 20,
+            padding: '5%',
+            alignSelf: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
         },
         errorText: {
-            color: 'red'
-        }
+            color: 'red',
+            paddingTop: '25px',
+            textAlign: 'center',
+        },
+        inputContainer: {
+            backgroundColor: theme.PRIMARY_COLOR,
+            borderRadius: 10,
+            marginBottom: 16,
+            width: '60%',
+            height: '5%',
+            alignSelf: 'center',
+        },
+        inputText: {
+            flex:1,
+            height: 40,
+            borderRadius: 10,
+            paddingHorizontal: '5%',
+            color: theme.TEXT_COLOR
+        }        
       });
     
       return styles;

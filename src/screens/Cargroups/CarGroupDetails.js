@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { StyleSheet, View, Image, Text, ScrollView, SafeAreaView } from 'react-native';
+import { ListItem, Icon } from 'react-native-elements';
 import { useTheme } from '../../constants/theme.style'
 
-const CarGroupDetails = (props) => {
+const CarGroupDetails = ({route, navigation}) => {
 
+    //theme
     const {theme } = useTheme();
     const styles = getStyles(theme);
 
@@ -13,40 +14,83 @@ const CarGroupDetails = (props) => {
         name,
         Land,
         members
-    } = props.route.params.carGroup;
+    } = route.params.carGroup;
+
+    const onNavigateBack = () => {
+        navigation.goBack();
+    }
 
     return (
-        <View style={styles.container}>
-            {/* delete button toevoegen */}
-            <Text style={styles.text}>{`${id} - ${name}`}</Text>
-            <Text style={styles.text}>{`from: ${Land}`}</Text>
-            <Text style={styles.text}>Members:</Text>
-            <ScrollView style={styles.text}>
-                {members.map(member => (
-                    <ListItem key={member.id} bottomDivider>
-                        <ListItem.Content>
-                            <ListItem.Title>{`${member.Id} - ${member.Name}`}</ListItem.Title>
-                        </ListItem.Content>
-                    </ListItem>
-                ))}
-            </ScrollView>
-        </View>
+        <SafeAreaView style={styles.containerParent}>
+            <SafeAreaView style={styles.innerContainer}>
+                <View style={styles.icon}>
+                <Icon name="arrow-back" type='material' color='black' size={30} onPress={() => onNavigateBack()} />
+                </View> 
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>{`${name}`}</Text>
+                </View>
+                <Text style={styles.text}>{`Location: ${Land}`}</Text>
+                <View style={styles.divider} />
+                <Text style={styles.sectionTitle}>Members:</Text>
+                <ScrollView style={styles.text}>
+                    {members.map(member => (
+                        <ListItem key={member.id} containerStyle={styles.ListItem} bottomDivider>
+                            <ListItem.Content>
+                                <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${member.Id} - ${member.Name}`}</ListItem.Title>
+                            </ListItem.Content>
+                        </ListItem>
+                    ))}
+                </ScrollView>
+            </SafeAreaView>
+        </SafeAreaView>
     )
 }
 
 const getStyles = (theme) => {
     const styles = StyleSheet.create({
-        container: {
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 10,
-          paddingTop: 30,
-          backgroundColor: theme.PRIMARY_COLOR
+        containerParent: {
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: theme.PRIMARY_COLOR,
+        },
+        innerContainer: {
+            backgroundColor: theme.LIST_BG_COLOR, // Background color for the inner container
+            margin: 16,
+            padding: 16,
+            height: '80%',
+            width: '80%', // Adjust the percentage based on your preference
+            alignSelf: 'center', // Center the inner container horizontally
+            borderRadius: 10,
+        },
+        titleContainer: {
+            alignItems: 'center',
+            marginBottom: 16,
+        },
+        title: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            color: theme.TEXT_COLOR
+        },
+        icon: {
+            alignSelf: 'flex-start',
+            color: theme.TEXT_COLOR
+        },
+        divider: {
+            borderBottomColor: 'black',
+            borderBottomWidth: 1,
+            marginBottom: 16,
+            color: theme.PRIMARY_COLOR
+        },
+        sectionTitle: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            marginBottom: 8,
+            paddingHorizontal: '5%',
+            color: theme.TEXT_COLOR,
         },
         text: {
             color: theme.TEXT_COLOR,
-            backgroundColor: theme.PRIMARY_COLOR
+            paddingHorizontal: '5%',
         }
       });
     
