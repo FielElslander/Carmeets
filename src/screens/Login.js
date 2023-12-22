@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, Button, TextInput } from 'react-native';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, TextInput } from 'react-native';
 import { useTheme } from '../constants/theme.style'
 import { useUser } from '../constants/user';
 import { Icon } from 'react-native-elements';
@@ -153,7 +153,7 @@ const getStyles = (theme) => {
             height: 40,
             borderRadius: 10,
             paddingHorizontal: '5%',
-            color: theme.TEXT_COLOR
+            color: 'white'
         }
       });
     

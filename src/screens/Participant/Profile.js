@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Image, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../constants/theme.style';
 import { useUser } from '../../constants/user';
-import profileTitlePNG from '../../../assets/ProfileTitlePNG.png';
 
 const Profile = ({navigation}) => {
 
@@ -38,7 +37,6 @@ const Profile = ({navigation}) => {
 
             <SafeAreaView style={styles.containerParent}>
                 <SafeAreaView style={styles.container}>
-                    <Image source={profileTitlePNG} style={styles.backgroundImage} />
                     <TouchableOpacity
                         onPress={handleLoginPress}
                         style={styles.buttonstyle}>
@@ -63,7 +61,6 @@ const Profile = ({navigation}) => {
         return (
             <SafeAreaView style={styles.containerParent}>
                 <SafeAreaView style={styles.container}>
-                    <Image source={profileTitlePNG} style={styles.backgroundImage} />
                     <TouchableOpacity 
                         onPress={handleSettingsPress}
                         style={styles.buttonstyle}

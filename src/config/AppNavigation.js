@@ -128,6 +128,9 @@ const getStyles = (theme) => {
     const styles = StyleSheet.create({
         container: {
             backgroundColor: theme.TAB_BAR_COLOR,
+        },
+        bgSettings: {
+            backgroundColor: theme.TAB_BAR_COLOR,
         }
     });
 

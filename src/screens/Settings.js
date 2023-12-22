@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, Button } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '../constants/theme.style'
 
 const Settings = () => {
@@ -11,10 +11,12 @@ const Settings = () => {
     
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text style={styles.text}>Settings</Text>
-            <Button onPress={toggleTheme} title="Toggle Theme"/>   
-        </View>
+            <TouchableOpacity onPress={toggleTheme} style={styles.buttonStyle}>
+                <Text>Toggle Theme</Text>
+            </TouchableOpacity>
+        </SafeAreaView>
     )
 }
 
@@ -29,9 +31,22 @@ const getStyles = (theme) => {
           backgroundColor: theme.PRIMARY_COLOR
         },
         text: {
+            fontSize: 24,
+            paddingBottom: '5%',
             color: theme.TEXT_COLOR
+        },
+        buttonStyle: {
+            margin: 'auto',
+            width: '50%',
+            backgroundColor: theme.BUTTON_COLOR,
+            borderRadius: 20,
+            alignSelf: 'center',
+            padding: '5%',
+            alignItems: 'center',
+            justifyContent: 'center',
+        
         }
-      });
+    });
     
       return styles;
 }
