@@ -145,7 +145,7 @@ const AddCarmeet = ({navigation}) => {
                         <TouchableOpacity
                             style={styles.buttonstyle}
                             onPress={onCreateClick}>
-                                <Text>Create carmeet</Text>
+                                <Text style={{color: 'white', fontWeight: 'bold'}}>Create carmeet</Text>
                         </TouchableOpacity>
                     </View>
                     <Text
@@ -162,7 +162,7 @@ const getStyles = (theme) => {
         containerParent: {
             flex: 1,
             justifyContent: 'center',
-            backgroundColor: theme.HIGHLIGHT_COLOR,
+            backgroundColor: theme.BG_INPUTVIEWS_COLOR,
         },
         innerContainer: {
             backgroundColor: theme.LIST_BG_COLOR,
@@ -171,7 +171,15 @@ const getStyles = (theme) => {
             width: '80%',
             height: '80%',
             alignSelf: 'center',
-            borderRadius: 10
+            borderRadius: 10,
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 10,
+                height: 10,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 4,
+            elevation: 5,
         },
         infoContainer: {
             width: '100%',

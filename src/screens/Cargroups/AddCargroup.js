@@ -79,7 +79,7 @@ const AddCargroup = ({navigation}) => {
                         style={styles.buttonStyle}
                         onPress={onCreateClick}
                         >
-                            <Text style={{color: 'white'}}>Create Cargroup</Text>
+                            <Text style={{color: 'white', fontWeight: 'bold'}}>Create Cargroup</Text>
                     </TouchableOpacity>
                 </View>               
                 <Text style={styles.errorText}>{errorText}</Text>
@@ -94,7 +94,7 @@ const getStyles = (theme) => {
         containerParent: {
             flex: 1,
             justifyContent: 'center',
-            backgroundColor: theme.HIGHLIGHT_COLOR,
+            backgroundColor: theme.BG_INPUTVIEWS_COLOR,
         },
         innerContainer: {
             backgroundColor: theme.LIST_BG_COLOR, // Background color for the inner container
@@ -104,6 +104,14 @@ const getStyles = (theme) => {
             height: '50%',
             alignSelf: 'center', // Center the inner container horizontally
             borderRadius: 10,
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 10,
+                height: 10,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 4,
+            elevation: 5,
         },
         infoContainer: {
             width: '100%',

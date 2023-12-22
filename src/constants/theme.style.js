@@ -11,6 +11,7 @@ const LightTheme = {
   SEARCHICON_COLOR: '#000',
   LIST_BG_COLOR: 'white',
   TAB_BAR_COLOR: 'white',
+  BG_INPUTVIEWS_COLOR: '#b7a1e3'
 };
 
 const DarkTheme = {
@@ -23,7 +24,8 @@ const DarkTheme = {
   BUTTON_COLOR: '#9370DB',
   SEARCHICON_COLOR: 'white',
   LIST_BG_COLOR: '#47484a',
-  TAB_BAR_COLOR: '#47484a'
+  TAB_BAR_COLOR: '#47484a',
+  BG_INPUTVIEWS_COLOR: '#b7a1e3'
 };
 
 const ThemeContext = createContext();

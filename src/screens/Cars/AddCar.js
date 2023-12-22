@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, View, Image, Text, ScrollView, TextInput, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Icon } from 'react-native-elements'
 import { useTheme } from '../../constants/theme.style'
-import { ListItem } from 'react-native-elements';
 import { useUser } from '../../constants/user';
 
-const AddCar = ({route, navigation}) => {
+const AddCar = ({navigation}) => {
 
     //error message
     const [errorText, setErrorText] = useState("");
@@ -48,8 +48,7 @@ const AddCar = ({route, navigation}) => {
                 setErrorText("Torque must be a number.");
             }
             if(!typeof YearText == "string" && !typeof HorsepowerText == "string" && !typeof torqueText == "string"){
-                 //post van car
-                //patch van participant
+                //patch add car particpant
                 console.log(navigation);
                 navigation.navigate('cars');
             }
@@ -74,79 +73,144 @@ const AddCar = ({route, navigation}) => {
         setTorqueText(text);
     }
 
+    const onNavigateBack = () => {
+        navigation.goBack();
+    }
+
 
 
     return (
-        <View style={styles.container}>
-            <TextInput
-                ref={brandInputRef}
-                style={styles.text}
-                placeholder='Brand'
-                value={BrandText}
-                onChangeText={onChangeBrandText}
-            />
-            <TextInput
-                ref={modelInputRef}
-                style={styles.text}
-                placeholder='Model'
-                value={ModelText}
-                onChangeText={onChangeModelText}
-            />
-            <TextInput
-                ref={yearInputRef}
-                style={styles.text}
-                placeholder='Year'
-                value={YearText}
-                onChangeText={onChangeYearText}
-                type='number'
-            />
-            <TextInput
-                ref={horsepowerInputRef}
-                style={styles.text}
-                placeholder='horsepower'
-                value={HorsepowerText}
-                onChangeText={onChangeHorsepowerText}
-                keyboardType='numeric'
-            />
-            <TextInput
-                ref={torqueInputRef}
-                style={styles.text}
-                placeholder='torque'
-                value={torqueText}
-                onChangeText={onChangeTorqueText}
-                keyboardType='numeric'
-            />
-            <Button
-                style={styles.buttonstyle}
-                title="Create Car"
-                onPress={onCreateClick}
-                buttonstyle={styles.buttonstyle}/>
-            <Text
-                style={styles.errorText}
-            >{errorText}</Text>
-        </View>
+        <SafeAreaView style={styles.containerParent}>
+            <SafeAreaView style={styles.innerContainer}>
+                <View style={styles.icon}>
+                    <Icon name="arrow-back" type='material' color='black' size={30} onPress={() => onNavigateBack()} />
+                </View>
+                <View style={styles.infoContainer}>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={brandInputRef}
+                            style={styles.inputText}
+                            placeholder='Brand'
+                            value={BrandText}
+                            onChangeText={onChangeBrandText}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={modelInputRef}
+                            style={styles.inputText}
+                            placeholder='Model'
+                            value={ModelText}
+                            onChangeText={onChangeModelText}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={yearInputRef}
+                            style={styles.inputText}
+                            placeholder='Year'
+                            value={YearText}
+                            onChangeText={onChangeYearText}
+                            type='number'
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={horsepowerInputRef}
+                            style={styles.inputText}
+                            placeholder='horsepower'
+                            value={HorsepowerText}
+                            onChangeText={onChangeHorsepowerText}
+                            keyboardType='numeric'
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={torqueInputRef}
+                            style={styles.inputText}
+                            placeholder='torque'
+                            value={torqueText}
+                            onChangeText={onChangeTorqueText}
+                            keyboardType='numeric'
+                        />
+                    </View>
+                    <View>
+                        <TouchableOpacity
+                            style={styles.buttonstyle}
+                            onPress={onCreateClick}>
+                            <Text style={{color: 'white', fontWeight: 'bold'}}>Create car</Text>  
+                        </TouchableOpacity>
+                    </View>
+                    <Text
+                        style={styles.errorText}
+                    >{errorText}</Text>
+                </View>
+            </SafeAreaView>
+        </SafeAreaView>
     )
 }
 
 const getStyles = (theme) => {
     const styles = StyleSheet.create({
-        container: {
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 10,
-          paddingTop: 30,
-          backgroundColor: theme.PRIMARY_COLOR
+        containerParent: {
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: theme.BG_INPUTVIEWS_COLOR
         },
-        text: {
+        innerContainer: {
+            backgroundColor: theme.LIST_BG_COLOR,
+            marginTop: '5%',
+            padding: '5%',
+            width: '80%',
+            height: '80%',
+            alignSelf: 'center',
+            borderRadius: 10,
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 10,
+                height: 10,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 4,
+            elevation: 5,
+        },
+        infoContainer: {
+            width: '100%',
+            height: '100%'
+        },
+        icon: {
+            alignSelf: 'flex-start',
             color: theme.TEXT_COLOR
         },
         buttonstyle: {
             margin: 'auto',
-            backgroundColor: theme.HIGHLIGHT_COLOR
+            width: '50%',
+            backgroundColor: theme.BUTTON_COLOR,
+            borderRadius: 20,
+            padding: '5%',
+            alignSelf: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
         },
         errorText: {
-            color: 'red'
+            color: 'red',
+            paddingTop: '25px',
+            textAlign: 'center',
+        },
+        inputContainer: {
+            backgroundColor: theme.PRIMARY_COLOR,
+            borderRadius: 10,
+            marginBottom: 16,
+            width: '60%',
+            height: '5%',
+            alignSelf: 'center',
+        },
+        inputText: {
+            flex:1,
+            height: 40,
+            borderRadius: 10,
+            paddingHorizontal: '5%',
+            color: theme.TEXT_COLOR,
         }
       });
     
