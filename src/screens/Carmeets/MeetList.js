@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Button, ScrollView, TextInput, SafeAreaView } from 'react-native';
+import { StyleSheet, Image, View, TouchableOpacity, Text, ScrollView, TextInput, SafeAreaView } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { useUser } from  '../../constants/user';
-import { useTheme } from '../../constants/theme.style'
-import { color } from 'react-native-elements/dist/helpers';
+import { useTheme } from '../../constants/theme.style';
+import TitlePng from '../../../assets/TitlePNG.png';
 
 
 
@@ -57,8 +57,7 @@ const Meetlist = ({navigation}) => {
         return (
             <SafeAreaView style={styles.containerParent}>
                 <SafeAreaView style={styles.container}>
-                    {/* TITLE */}
-                    <Text style={styles.title}>Carmeets</Text>
+                    <Image source={TitlePng} style={styles.backgroundImage} />
                     {/* Input field for filtering based on location? */}
                     <>
                         <SafeAreaView style={styles.searchContainer}>
@@ -103,10 +102,9 @@ const Meetlist = ({navigation}) => {
         return (
             <SafeAreaView style={styles.containerParent}>
                 <SafeAreaView style={styles.container}>
-                    {/* TITLE */}
-                    <Text style={styles.title}>Carmeets</Text>
+                    <Image source={TitlePng} style={styles.backgroundImage} />
                     {/* Input field for filtering based on location? */}
-                    <>
+                    <View>
                         <SafeAreaView style={styles.searchContainer}>
                             <Icon name="search" size={20} color={theme.SEARCHICON_COLOR} style={{marginRight: 5}} />
                             <TextInput
@@ -120,7 +118,7 @@ const Meetlist = ({navigation}) => {
                             onPress={onNavigateCreateClick}>
                             <Text style={styles.buttonText}>+</Text>
                         </TouchableOpacity>
-                    </>
+                    </View>
                     {/* List with meets (clickable) */}
                     <ScrollView>
                         {filteredList.map(meet => (
@@ -148,11 +146,18 @@ const getStyles = (theme) => {
         container: {
           backgroundColor: theme.PRIMARY_COLOR,
           flex: 1,
-          marginHorizontal: 16
+          marginHorizontal: '5%'
         },
         containerParent: {
             backgroundColor: theme.PRIMARY_COLOR,
             flex: 1
+        },
+        backgroundImage: {
+            width: '100%',
+            height: 50,
+            padding: '15%',
+            paddingTop: '15%',
+            position: 'relative',
         },
         text: {
             color: theme.TEXT_COLOR
@@ -165,8 +170,8 @@ const getStyles = (theme) => {
             shadowColor: "black",
         },
         buttonstyle: {
-            paddingTop: 5,
-            paddingBottom: 5,
+            paddingTop: 10,
+            paddingBottom: 10,
             marginBottom: 10,
             width: '100%',
             margin: 'auto',

@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Image, Text, TextInput, ScrollView, Button, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, Text, TextInput, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { useUser } from '../../constants/user';
 import { useTheme } from '../../constants/theme.style';
+import  TitlePNG  from '../../../assets/CarTitlePNG.png';
 
 const CarList = ({navigation}) => {
 
@@ -45,7 +46,7 @@ const CarList = ({navigation}) => {
         return (        
             <SafeAreaView style={styles.containerParent}>
                 <SafeAreaView style={styles.container}>
-                    <Text style={styles.title}>Registered cars</Text>
+                    <Image source={TitlePNG} style={styles.backgroundImage} />
                     <>
                         <SafeAreaView style={styles.searchContainer}>
                             <Icon name="search" size={20} color={theme.SEARCHICON_COLOR} style={{marginRight: 5}}/>
@@ -82,8 +83,7 @@ const CarList = ({navigation}) => {
         return (        
             <SafeAreaView style={styles.containerParent}>
                 <SafeAreaView style={styles.container}>
-                    <Text style={styles.title}>Registered cars</Text>
-                    <>
+                <Image source={TitlePNG} style={styles.backgroundImage} />
                         <SafeAreaView style={styles.searchContainer}>
                             <Icon name="search" size={20} color={theme.SEARCHICON_COLOR} style={{marginRight: 5}}/>
                             <TextInput
@@ -92,7 +92,6 @@ const CarList = ({navigation}) => {
                                 value={filterText}
                                 onChangeText={updateList}/>
                         </SafeAreaView>
-                    </>
                     <ScrollView>
                         {filteredList.map(car => (
                             <ListItem key={car.Id} containerStyle={styles.listItem} bottomDivider>
@@ -114,7 +113,7 @@ const getStyles = (theme) => {
         container: {
             backgroundColor: theme.PRIMARY_COLOR,
             flex: 1,
-            marginHorizontal: 16
+            marginHorizontal: '5%'
         },
         containerParent: {
               backgroundColor: theme.PRIMARY_COLOR,
@@ -125,6 +124,13 @@ const getStyles = (theme) => {
             height: 40,
             borderRadius: 20,
             color: theme.TEXT_COLOR
+        },
+        backgroundImage: {
+            width: '100%',
+            height: 50,
+            padding: '15%',
+            paddingTop: '15%',
+            position: 'relative',
         },
         searchContainer: {
             flexDirection: 'row',

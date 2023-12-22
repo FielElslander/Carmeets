@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Image, Text, Button, TextInput } from 'react-native';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, Button, TextInput } from 'react-native';
 import { useTheme } from '../constants/theme.style'
 import { useUser } from '../constants/user';
+import { Icon } from 'react-native-elements';
 
 const Login = ({navigation}) => {
 
@@ -50,52 +51,109 @@ const Login = ({navigation}) => {
         }
     }
 
+    const onNavigateBack = () => {
+        navigation.goBack();
+    }
+
     return (
-        <View style={styles.container}>
-            <TextInput
-                style={styles.text}
-                placeholder='Email'
-                value={emailText}
-                onChangeText={onChangeUserName}
-            />
-            <TextInput
-                style={styles.text}
-                placeholder='Password'
-                value={passwordText}
-                secureTextEntry="true"
-                onChangeText={onChangePassword}
-            />
-            <Button
-                style={styles.buttonstyle}
-                title="Login"
-                onPress={handleLoginPress}
-                buttonstyle={styles.buttonstyle}/>
-            <Text
-                style={styles.errorText}
-            >{errorText}</Text>
-        </View>
+        <SafeAreaView style={styles.containerParent}>
+            <SafeAreaView style={styles.innerContainer}>
+                <View style={styles.icon}>
+                    <Icon name="arrow-back" type='material' color='black' size={30} onPress={() => onNavigateBack()} />
+                </View>
+                <View style={styles.infoContainer}>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.inputText}
+                            placeholder='Email'
+                            value={emailText}
+                            onChangeText={onChangeUserName}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.inputText}
+                            placeholder='Password'
+                            value={passwordText}
+                            secureTextEntry="true"
+                            onChangeText={onChangePassword}
+                        />
+                    </View>
+                    <View>
+                        <TouchableOpacity
+                            style={styles.buttonStyle}
+                            onPress={handleLoginPress}>
+                                <Text style={{color: 'white', fontWeight: 'bold'}}>Login</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={styles.errorText}>{errorText}</Text>
+                </View>
+            </SafeAreaView>
+        </SafeAreaView>
     )
 }
 
 const getStyles = (theme) => {
     const styles = StyleSheet.create({
-        container: {
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 10,
-          paddingTop: 30,
-          backgroundColor: theme.PRIMARY_COLOR
+        containerParent: {
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: theme.BG_INPUTVIEWS_COLOR,
         },
-        text: {
+        innerContainer: {
+            backgroundColor: theme.LIST_BG_COLOR,
+            margin: 16,
+            padding: 16,
+            width: '80%', 
+            height: '50%',
+            alignSelf: 'center',
+            borderRadius: 10,
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 10,
+                height: 10,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 4,
+            elevation: 5,
+        },
+        infoContainer: {
+            width: '100%',
+            height: '100%',
+        },      
+        icon: {
+            alignSelf: 'flex-start',
             color: theme.TEXT_COLOR
         },
-        buttonstyle: {
+        buttonStyle: {
             margin: 'auto',
-            backgroundColor: theme.HIGHLIGHT_COLOR
+            width: '50%',
+            backgroundColor: theme.BUTTON_COLOR,
+            borderRadius: 20,
+            alignSelf: 'center',
+            padding: '5%',
+            alignItems: 'center',
+            justifyContent: 'center',
         },
         errorText: {
-            color: 'red'
+            color: 'red',
+            paddingTop: '25px',
+            textAlign: 'center',
+        },
+        inputContainer: {
+            backgroundColor: theme.PRIMARY_COLOR,
+            borderRadius: 10,
+            marginBottom: 16,
+            width: '60%',
+            height: '10%',
+            alignSelf: 'center',
+        },
+        inputText: {
+            flex:1,
+            height: 40,
+            borderRadius: 10,
+            paddingHorizontal: '5%',
+            color: theme.TEXT_COLOR
         }
       });
     

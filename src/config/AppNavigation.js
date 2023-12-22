@@ -102,10 +102,10 @@ export const RootNavigator = () => {
     return (
         <RootStack.Navigator>
             <RootStack.Group screenOptions={{presentation: 'modal'}}>
-                <RootStack.Screen name="Profile" component={Profile}/>
+                <RootStack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
                 <RootStack.Screen name="Settings" component={Settings}/>
-                <RootStack.Screen name="Login" component={Login}/>
-                <RootStack.Screen name="Register" component={Register}/>
+                <RootStack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+                <RootStack.Screen name="Register" component={Register} options={{headerShown: false}}/>
             </RootStack.Group>
         </RootStack.Navigator>
     );

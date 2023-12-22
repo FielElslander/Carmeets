@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, Button } from 'react-native';
-import { useTheme } from '../../constants/theme.style'
+import { StyleSheet, View, Image, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { useTheme } from '../../constants/theme.style';
 import { useUser } from '../../constants/user';
+import profileTitlePNG from '../../../assets/ProfileTitlePNG.png';
 
 const Profile = ({navigation}) => {
 
     //dark - light theme
-    const { toggleTheme, theme } = useTheme();
+    const { theme } = useTheme();
     const styles = getStyles(theme);
 
     //user
@@ -35,61 +36,87 @@ const Profile = ({navigation}) => {
     if(user == null){
         return (
 
-            <View>
-                <Text>This is my profile</Text>
-                <Button
-                    title="Login"
-                    onPress={handleLoginPress}
-                    buttonstyle={styles.buttonstyle}/>
-                <Button
-                    title="Register"
-                    onPress={handleRegisterPress}
-                    buttonstyle={styles.buttonstyle}/>
-                <Button 
-                    title="Settings"
-                    onPress={handleSettingsPress}
-                    buttonstyle={styles.buttonstyle}
-                />
-            </View>
-        )
+            <SafeAreaView style={styles.containerParent}>
+                <SafeAreaView style={styles.container}>
+                    <Image source={profileTitlePNG} style={styles.backgroundImage} />
+                    <TouchableOpacity
+                        onPress={handleLoginPress}
+                        style={styles.buttonstyle}>
+                            <Text style={{color: 'white', fontWeight: 'bold'}}>Login</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={handleRegisterPress}
+                        style={styles.buttonstyle}>
+                            <Text style={{color: 'white', fontWeight: 'bold'}}>Register</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        onPress={handleSettingsPress}
+                        style={styles.buttonstyle}
+                    >
+                        <Text style={{color: 'white', fontWeight: 'bold'}}>Settings</Text>
+                    </TouchableOpacity>
+                </SafeAreaView>
+            </SafeAreaView>
+        );
     }
     else{
         return (
-
-            <View>
-                <Text>This is my profile</Text>
-                <Button 
-                    title="Settings"
-                    onPress={handleSettingsPress}
-                    buttonstyle={styles.buttonstyle}
-                />
-                <Button
-                    title="Logout"
-                    onPress={handleLogoutPress}
-                    buttonstyle={styles.buttonstyle}
-                />
-            </View>
-        )
+            <SafeAreaView style={styles.containerParent}>
+                <SafeAreaView style={styles.container}>
+                    <Image source={profileTitlePNG} style={styles.backgroundImage} />
+                    <TouchableOpacity 
+                        onPress={handleSettingsPress}
+                        style={styles.buttonstyle}
+                    >
+                        <Text style={{color: 'white', fontWeight: 'bold'}}>Settings</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={handleLogoutPress}
+                        style={styles.buttonstyle}
+                    >
+                        <Text style={{color: 'white', fontWeight: 'bold'}}>Logout</Text>
+                    </TouchableOpacity>
+                </SafeAreaView>
+            </SafeAreaView>
+        );
     }  
-}
+};
 
 
 const getStyles = (theme) => {
     const styles = StyleSheet.create({
-        container: {
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 10,
-          paddingTop: 30,
-          backgroundColor: theme.PRIMARY_COLOR
+        containerParent: {
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: theme.PRIMARY_COLOR
         },
-        text: {
-            color: theme.TEXT_COLOR
+        container: {
+            flex: 1,
+            height: '50%',
+            backgroundColor: theme.PRIMARY_COLOR,
+            marginHorizontal: '5%'
         },
         buttonstyle: {
-            margin: 'auto',
-            backgroundColor: theme.HIGHLIGHT_COLOR
+            width: '50%',
+            marginTop: 10,
+            padding: 20,
+            backgroundColor: theme.HIGHLIGHT_COLOR,
+            borderRadius: 20,
+            alignSelf: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        divider: {
+            borderBottomColor: 'black',
+            borderBottomWidth: 1,
+            marginBottom: 16,
+            color: theme.PRIMARY_COLOR
+        },
+        title: {
+            fontSize: 64,
+            alignSelf: 'center',
+            color: theme.TEXT_COLOR,
+            fontWeight: 'bold',
         }
     });
     

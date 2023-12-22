@@ -4,6 +4,7 @@ import { StyleSheet, View, Image, Text, TextInput, ScrollView, SafeAreaView, Tou
 import { Button, ListItem, Icon } from 'react-native-elements';
 import { useUser } from '../../constants/user';
 import { useTheme } from '../../constants/theme.style';
+import groupListTitle from '../../../assets/CargroupPNG.png';
 
 
 const CarGroupList = ({navigation}) => {
@@ -54,7 +55,7 @@ const CarGroupList = ({navigation}) => {
         return (
             <SafeAreaView style={styles.containerParent}>
                 <SafeAreaView style={styles.container}>
-                    <Text style={styles.title}>Cargroups</Text>
+                <Image source={groupListTitle} style={styles.backgroundImage} />
                     <>
                         <SafeAreaView style={styles.searchContainer}>
                             <Icon name="search" size={20} color={theme.SEARCHICON_COLOR} style={{marginRight: 5}} />
@@ -95,7 +96,7 @@ const CarGroupList = ({navigation}) => {
         return (
             <SafeAreaView style={styles.containerParent}>
                 <SafeAreaView style={styles.container}>
-                    <Text style={styles.title}>Cargroups</Text>
+                <Image source={groupListTitle} style={styles.backgroundImage} />  
                     <>
                         <SafeAreaView style={styles.searchContainer}>
                             <Icon name="search" size={20} color={theme.SEARCHICON_COLOR} style={{marginRight: 5}} />
@@ -136,7 +137,7 @@ const getStyles = (theme) => {
         container: {
             backgroundColor: theme.PRIMARY_COLOR,
             flex: 1,
-            marginHorizontal: 16
+            marginHorizontal: '5%'
         },
         containerParent: {
               backgroundColor: theme.PRIMARY_COLOR,
@@ -147,6 +148,13 @@ const getStyles = (theme) => {
             height: 40,
             borderRadius: 20,
             color: theme.TEXT_COLOR
+        },
+        backgroundImage: {
+            width: '100%',
+            height: 50,
+            padding: '15%',
+            paddingTop: '15%',
+            position: 'relative',
         },
         searchContainer: {
             flexDirection: 'row',
