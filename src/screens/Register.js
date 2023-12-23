@@ -6,11 +6,11 @@ import { Icon } from 'react-native-elements';
 
 const Register = ({navigation}) => {
 
-    const { toggleTheme, theme } = useTheme();
+    const {theme } = useTheme();
     const styles = getStyles(theme);
 
     //user
-    const { LoginOrRegister } = useUser();
+    const { LoginOrRegister, user } = useUser();
 
     //login states
     const [usernameText, setusernameText] = useState("")
@@ -32,26 +32,37 @@ const Register = ({navigation}) => {
         setpasswordText(text);
     }
 
-    const handleRegisterPress = () => {
+    const handleRegisterPress = async () => {
         console.log("Registerbuttonpressed");
         //get by email -> alsj iets terug krijgt -> error user bestaat al
         //als dat nie zo is doe je post
-        const User = {
+        const gebruiker = {
             name: usernameText,
             email: emailText,
             password: passwordText
         }
         if (usernameText != "" && emailText != "" && passwordText != "") {
             if(emailText.indexOf("@") !== -1 && emailText.indexOf(".") !== -1) {   
-                /*fetch('http://localhost:8080/participant/Login?email=emailText&password=passwordText)
-                //post request
-                    .then(res => res.json())
-                    .then(data => {
-                LoginOrRegister(data);*/
-                LoginOrRegister(User);
-                setErrorText("");
-                navigation.navigate('Profile');
-                //hier post doen
+                //api call post
+                try{
+                    const response = await fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/participants', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json',},
+                        body: JSON.stringify(gebruiker)
+                    });
+
+                    if(response.ok) {
+                        navigation.navigate('Profile');
+                        LoginOrRegister(gebruiker);
+                        setErrorText("");
+                        console.log();
+                    } else {
+                        const responseData = await response.json();
+                        setErrorText(responseData.message);
+                    }
+                } catch (err) {
+                    console.error(err);
+                }            
             } else{
                 setErrorText("Email not valid.");
             }

@@ -21,15 +21,32 @@ const AddCargroup = ({navigation}) => {
     const [locationText, setLocationText] = useState("");
 
 
-    const onCreateClick = () => {
-        //met api toevoegen na controle
-        //checken of groep met bepaalde naam al bestaat via api
-
-
+    const onCreateClick = async () => {
+        const carGroup = {
+            name: nameText,
+            location: locationText,
+        }
         //inputfields validation
         if (nameText != "" && locationText != ""){
-            //post met nieuwe cargroup
-            navigation.navigate('Cargroups');
+            try {
+                const response = await fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/cargroups', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(carGroup),
+                });
+        
+                if (response.ok) {
+                  navigation.navigate('Cargroups');
+                } else {
+                  const responseData = await response.json();
+                  setErrorText(responseData.message);
+                }
+              } catch (error) {
+                console.error('Error during car group creation:', error);
+                setErrorText('Failed to create car group');
+              }
         }else{
             setErrorText("Fill in all required fields!");
         }

@@ -15,7 +15,7 @@ const Login = ({navigation}) => {
     const [passwordText, setpasswordText] = useState("")
 
     //user
-    const {LoginOrRegister } = useUser();
+    const {LoginOrRegister, user } = useUser();
 
     //error state
     const [errorText, setErrorText] = useState("")
@@ -30,27 +30,41 @@ const Login = ({navigation}) => {
 
     const handleLoginPress = () => {
         console.log("loginbuttonpressed");
-        const User = {
-            email: emailText,
-            password: passwordText
-        }
-        if (emailText != "" && passwordText != "") {
-            if(emailText.indexOf("@") !== -1 && emailText.indexOf(".") !== -1) {   
-                /*fetch('http://localhost:8080/participant/Login?email=emailText&password=passwordText)
-                    .then(res => res.json())
-                    .then(data => {
-                LoginOrRegister(data);*/
-                //bij error ne error tonen
-                LoginOrRegister(User);
-                setErrorText("");
-                navigation.navigate('Profile');
-            } else{
-                setErrorText("Email not valid.");
+
+        if (emailText !== "" && passwordText !== "") {
+            if (emailText.indexOf("@") !== -1 && emailText.indexOf(".") !== -1) {
+              fetch(
+                'http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/participants/Login?email=' +
+                  emailText +
+                  '&password=' +
+                  passwordText
+              )
+                .then((res) => {
+                  if (!res.ok) {
+                    throw new Error('Invalid email or password');
+                  }
+                  return res.json();
+                })
+                .then((data) => {
+                  setErrorText("");
+                  const gebruiker = {
+                    id: data.id,
+                    name: data.name,
+                    email: data.email,
+                  }
+                  LoginOrRegister(gebruiker);
+                  navigation.navigate('Profile');
+                  console.log(user);
+                })
+                .catch((error) => {
+                  setErrorText(error.message);
+                });
+            } else {
+              setErrorText("Email not valid.");
             }
-        }
-        else{
-            setErrorText("Fill in all required fields!")
-        }
+          } else {
+            setErrorText("Fill in all required fields!");
+          }
     }
 
     const onNavigateBack = () => {

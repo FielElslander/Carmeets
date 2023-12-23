@@ -30,27 +30,39 @@ const AddCar = ({navigation}) => {
     const [HorsepowerText, setHorsepowerText] = useState();
     const [torqueText, setTorqueText] = useState();
 
-    const onCreateClick = () => {
+    const onCreateClick = async () => {
         console.log('onCreateClicked.called');
-        //get participant based on email
-        //post maken van car
-        //patch voor user
         setErrorText("");
+        const car = {
+            brand: BrandText,
+            model: ModelText,
+            productionYear: YearText,
+            horsepower: HorsepowerText,
+            torque: torqueText,
+            ownerId: user.id
+        }
 
         if(BrandText != "" && ModelText != "" && YearText != 0 && HorsepowerText != 0 && torqueText != 0){
-            if (typeof YearText == "string"){
-                setErrorText("Year must be a number.");
-            }
-            if (typeof HorsepowerText == "string"){
-                setErrorText("Horsepower must be a number.");
-            }
-            if (typeof torqueText == "string"){
-                setErrorText("Torque must be a number.");
-            }
             if(!typeof YearText == "string" && !typeof HorsepowerText == "string" && !typeof torqueText == "string"){
-                //patch add car particpant
-                console.log(navigation);
-                navigation.navigate('cars');
+                try {
+                    const response = await fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/participants/AddCar/' + user.id, {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(car),
+                    });
+            
+                    if (response.ok) {
+                      navigation.navigate('cars');
+                    } else {
+                      const responseData = await response.json();
+                      setErrorText(responseData.message);
+                    }
+                  } catch (error) {
+                    console.error('Error during car creation:', error);
+                    setErrorText('Failed to create car');
+                  }
             }
         } else {
             setErrorText("Fill in all required fields");

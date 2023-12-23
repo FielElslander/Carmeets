@@ -20,6 +20,7 @@ const AddCarmeet = ({navigation}) => {
     const parkingspotsInputRef = useRef("");
     const starttimeInputRef = useRef("");
     const endtimeInputRef = useRef("");
+    const landInputRef = useRef("");
 
     //carmeet variables
     const [dateText, setDate] = useState("");    
@@ -29,16 +30,42 @@ const AddCarmeet = ({navigation}) => {
     const [parkingspotsText, setParkingspots] = useState();
     const [startTimeText, setStartTime] = useState("");
     const [endTimeText, setEndTime] = useState("");
+    const [landText, setLand] = useState("");
 
-    const onCreateClick = () => {
+    const onCreateClick = async () => {
         console.log('onMeetClick.called');
-        //checken of carmeet al bestaat met die naam
-        //met api toevoegen na controle
-
+        const carMeet = {
+            date: dateText,
+            name: nameText,
+            location: locationText,
+            land: landText,
+            price: priceText,
+            parkingspots: parkingspotsText,
+            startTime: startTimeText,
+            endTime: endTimeText
+        }
         //inputfields validation
-        if (dateText != "" && nameText != "" && locationText != "" && priceText != "" && parkingspotsText != 0 && startTimeText != "" && endTimeText != ""){
-            //post met nieuwe cargroup
-            navigation.navigate("meetlist");
+        if (dateText != "" && nameText != "" && locationText != "" && priceText != "" && parkingspotsText != 0 && startTimeText != "" && endTimeText != "" && landText != ""){
+            //post met nieuwe carmeet
+            try {
+                const response = await fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/carmeets', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(carMeet),
+                });
+        
+                if (response.ok) {
+                  navigation.navigate('Meetlist');
+                } else {
+                  const responseData = await response.json();
+                  setErrorText(responseData.message);
+                }
+              } catch (error) {
+                console.error('Error during carmeet creation:', error);
+                setErrorText('Failed to carmeet');
+              }
         } else{
             setErrorText("Fill in all required fields!");
         }
@@ -64,6 +91,9 @@ const AddCarmeet = ({navigation}) => {
     }
     const onChangeEndTimeText = (text) => {
         setEndTime(text);
+    }
+    const onChangeLandText = (text) => {
+        setLand(text);
     }
 
     const onNavigateBack = () => {
@@ -103,6 +133,15 @@ const AddCarmeet = ({navigation}) => {
                             placeholder='Location'
                             value={locationText}
                             onChangeText={text => onChangeLocationText(text)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={landInputRef}
+                            style={styles.inputText}
+                            placeholder='Land'
+                            value={landText}
+                            onChangeText={text => onChangeLandText(text)}
                         />
                     </View>
                     <View style={styles.inputContainer}>

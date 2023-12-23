@@ -52,7 +52,7 @@ const MeetDetail = ({route, navigation}) => {
                     <Text style={styles.text}>{`Parkingspots: ${displayedMeet.parkingspots}`}</Text>
                     <View style={styles.infoContainer}>
                         <Text style={styles.text}>{`Place: ${displayedMeet.location} - (${displayedMeet.land})`}</Text>
-                        <Text style={styles.text}>{`Price: ${displayedMeet.income}`}</Text>
+                        <Text style={styles.text}>{`Price: ${displayedMeet.price}`}</Text>
                     </View>
                     <View style={styles.divider} />
                     <Text style={styles.sectionTitle}>List of all participants</Text>
