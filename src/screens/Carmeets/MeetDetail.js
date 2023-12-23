@@ -20,7 +20,7 @@ const MeetDetail = ({route, navigation}) => {
     }
 
     useEffect(() => {
-        fetch('https://raw.githubusercontent.com/FielElslander/JsonTestData/main/Carmeets.json')
+      fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/carmeets')
         .then(res => res.json())
         .then(data => {
             setCarMeets(data)
@@ -46,21 +46,21 @@ const MeetDetail = ({route, navigation}) => {
                 <Icon name="arrow-back" type='material' color='black' size={30} onPress={() => onNavigateBack()} />
                 </View>   
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{`${displayedMeet.Name}`}</Text>
+                        <Text style={styles.title}>{`${displayedMeet.name}`}</Text>
                     </View>                    
-                    <Text style={styles.text}>{`Date: ${displayedMeet.Date}`}</Text>
-                    <Text style={styles.text}>{`Parkingspots: ${displayedMeet.Parkingspots}`}</Text>
+                    <Text style={styles.text}>{`Date: ${displayedMeet.date}`}</Text>
+                    <Text style={styles.text}>{`Parkingspots: ${displayedMeet.parkingspots}`}</Text>
                     <View style={styles.infoContainer}>
-                        <Text style={styles.text}>{`Place: ${displayedMeet.Location} - (${displayedMeet.Land})`}</Text>
-                        <Text style={styles.text}>{`Price: ${displayedMeet.Income}`}</Text>
+                        <Text style={styles.text}>{`Place: ${displayedMeet.location} - (${displayedMeet.land})`}</Text>
+                        <Text style={styles.text}>{`Price: ${displayedMeet.income}`}</Text>
                     </View>
                     <View style={styles.divider} />
                     <Text style={styles.sectionTitle}>List of all participants</Text>
                     <ScrollView>
-                        {displayedMeet.Participants.map(participant => (
+                        {displayedMeet.participants.map(participant => (
                             <ListItem key={participant.id} containerStyle={styles.listItem} bottomDivider>
                                 <ListItem.Content>
-                                <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${participant.Id} - ${participant.Name}`}</ListItem.Title>
+                                <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${participant.id} - ${participant.name}`}</ListItem.Title>
                                 </ListItem.Content>
                             </ListItem>
                         ))}
@@ -69,10 +69,10 @@ const MeetDetail = ({route, navigation}) => {
                     <Text style={styles.sectionTitle}>Some other meetings</Text>
                     <ScrollView horizontal>
                         {randomCarMeets.map((randomCarmeet) => (
-                            <ListItem key={randomCarmeet.Id} containerStyle={styles.listItem} bottomDivider onPress={() => onMeetClick(randomCarmeet)}>
+                            <ListItem key={randomCarmeet.id} containerStyle={styles.listItem} bottomDivider onPress={() => onMeetClick(randomCarmeet)}>
                                 <ListItem.Content>
-                                <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${randomCarmeet.Name}`}</ListItem.Title>
-                                <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${randomCarmeet.Date} - ${randomCarmeet.Location}`}</ListItem.Subtitle>
+                                <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${randomCarmeet.name}`}</ListItem.Title>
+                                <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${randomCarmeet.date} - ${randomCarmeet.location}`}</ListItem.Subtitle>
                                 </ListItem.Content>
                             </ListItem>
                         ))}

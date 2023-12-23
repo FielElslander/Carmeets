@@ -12,7 +12,7 @@ const CarGroupDetails = ({route, navigation}) => {
     const {
         id,
         name,
-        Land,
+        location,
         members
     } = route.params.carGroup;
 
@@ -29,14 +29,14 @@ const CarGroupDetails = ({route, navigation}) => {
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{`${name}`}</Text>
                 </View>
-                <Text style={styles.text}>{`Location: ${Land}`}</Text>
+                <Text style={styles.text}>{`Location: ${location}`}</Text>
                 <View style={styles.divider} />
                 <Text style={styles.sectionTitle}>Members:</Text>
                 <ScrollView style={styles.text}>
                     {members.map(member => (
                         <ListItem key={member.id} containerStyle={styles.ListItem} bottomDivider>
                             <ListItem.Content>
-                                <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${member.Id} - ${member.Name}`}</ListItem.Title>
+                                <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${member.id} - ${member.name}`}</ListItem.Title>
                             </ListItem.Content>
                         </ListItem>
                     ))}

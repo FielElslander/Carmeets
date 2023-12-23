@@ -22,12 +22,13 @@ const CarGroupList = ({navigation}) => {
     const {user} = useUser();
 
     useEffect(() => {
-        fetch('https://raw.githubusercontent.com/FielElslander/JsonTestData/main/Cargroups.json')
+        fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/cargroups')
         .then(res => res.json())
         .then(data => {
-            setGroups(data)
-            setFilteredList(data)
-        });
+            setGroups(data);
+            setFilteredList(data);
+        })
+        .catch(err => {setGroups(null); setFilteredList(null);})
     }, []);
 
     const updateList = (text) => {
@@ -65,17 +66,22 @@ const CarGroupList = ({navigation}) => {
                                 value={filterText}
                                 onChangeText={updateList} />
                         </SafeAreaView>
-                        <TouchableOpacity style={styles.buttonstyle} onPress={OnCreateClick}>
-                            <Text style={styles.buttonText}>+</Text>
-                        </TouchableOpacity>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.buttonstyle} onPress={OnCreateClick}>
+                                <Text style={styles.buttonText}>+</Text>
+                            </TouchableOpacity>
+                            <Icon name="refresh" size={30} style={styles.iconRefresh} 
+                            color={theme.TEXT_COLOR} />
+                        </View>
                     </>
                     {/* List with meets (clickable) */}
-                    <ScrollView>
+                    {filteredList ? (
+                        <ScrollView>
                         {filteredList.map(group => (
                             <ListItem key={group.id} containerStyle={styles.listItem} bottomDivider onPress={() => onGroupClick(group)}>
                                 <ListItem.Content>
                                     <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${group.id} - ${group.name}`}</ListItem.Title>
-                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${group.Land}`}</ListItem.Subtitle>
+                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${group.location}`}</ListItem.Subtitle>
                                     <TouchableOpacity style={styles.joinButton}
                                     onPress={() => onJoinClick(group.id)}>
                                         <Text style={styles.buttonText}>Join group!</Text>
@@ -89,6 +95,9 @@ const CarGroupList = ({navigation}) => {
                             </ListItem>
                         ))}
                     </ScrollView>
+                    ) : (
+                        <Text>No data available, check internet connection..</Text>
+                    )}                    
                 </SafeAreaView>
             </SafeAreaView>
         )
@@ -106,17 +115,21 @@ const CarGroupList = ({navigation}) => {
                                 value={filterText}
                                 onChangeText={updateList} />
                         </SafeAreaView>
-                        <TouchableOpacity style={styles.buttonstyle} onPress={OnCreateClick}>
-                            <Text style={styles.buttonText}>+</Text>
-                        </TouchableOpacity>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.buttonstyle} onPress={OnCreateClick}>
+                                <Text style={styles.buttonText}>+</Text>
+                            </TouchableOpacity>
+                            <Icon name="refresh" size={30} style={styles.iconRefresh} 
+                            color={theme.TEXT_COLOR} />
+                        </View>
                     </>
-                    {/* List with meets (clickable) */}
-                    <ScrollView>
+                    {filteredList ? (
+                        <ScrollView>
                         {filteredList.map(group => (
                             <ListItem key={group.id} containerStyle={styles.listItem} bottomDivider onPress={() => onGroupClick(group)}>
                                 <ListItem.Content>
                                     <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${group.id} - ${group.name}`}</ListItem.Title>
-                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${group.Land}`}</ListItem.Subtitle>
+                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${group.location}`}</ListItem.Subtitle>
                                 </ListItem.Content>
                                 <Icon
                                     name="trash"
@@ -126,6 +139,9 @@ const CarGroupList = ({navigation}) => {
                             </ListItem>
                         ))}
                     </ScrollView>
+                    ) : (
+                        <Text>No data available, check internet connection..</Text>
+                    )}
                 </SafeAreaView>
             </SafeAreaView>
         )
@@ -184,13 +200,13 @@ const getStyles = (theme) => {
             color: theme.TEXT_COLOR,
         },
         buttonstyle: {
-            paddingTop: 5,
-            paddingBottom: 5,
+            paddingTop: 10,
+            paddingBottom: 10,
             marginBottom: 10,
-            width: '100%',
-            margin: 'auto',
+            width: '85%',
             backgroundColor: theme.BUTTON_COLOR,
             borderRadius: 20,
+            alignSelf: 'left',
             alignItems: 'center',
             justifyContent: 'center',
         },
@@ -205,6 +221,14 @@ const getStyles = (theme) => {
             borderRadius: 20,
             alignItems: 'center',
             justifyContent: 'center',
+        },
+        buttonContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        iconRefresh : {
+            justifyContent: 'flex-end',
+            marginLeft: 10,
         }
     });
     return styles;

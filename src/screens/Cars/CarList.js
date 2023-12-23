@@ -20,12 +20,13 @@ const CarList = ({navigation}) => {
     const { user } = useUser();
 
     useEffect(() => {
-        fetch('https://raw.githubusercontent.com/FielElslander/JsonTestData/main/cars.json')
+        fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/cars')
         .then(res => res.json())
         .then(data => {
             setCars(data);
             setFilteredList(data);
-        });
+        })
+        .catch(error => {setCars(null); setFilteredList(null);});
     }, []);
 
     const updateList = (text) => {
@@ -56,29 +57,36 @@ const CarList = ({navigation}) => {
                                 value={filterText}
                                 onChangeText={updateList}/>
                         </SafeAreaView>
-                        <TouchableOpacity style={styles.buttonstyle} onPress={onNavigateCreateClick}>
-                            <Text style={styles.buttonText}>+</Text>
-                        </TouchableOpacity>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.buttonstyle} onPress={onNavigateCreateClick}>
+                                <Text style={styles.buttonText}>+</Text>
+                            </TouchableOpacity>
+                            <Icon name="refresh" size={30} style={styles.iconRefresh} color={theme.TEXT_COLOR} />
+                        </View>
+                        {filteredList ? (
+                            <ScrollView>
+                                {filteredList.map(car => (
+                                    <ListItem key={car.id} containerStyle={styles.listItem} bottomDivider>
+                                        <ListItem.Content>
+                                            <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${car.id} - ${car.brand} - ${car.model}`}</ListItem.Title>
+                                            <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`Year: ${car.productionYear}`}</ListItem.Subtitle>
+                                        </ListItem.Content>
+                                        <Icon
+                                            name="trash"
+                                            color={"red"}
+                                            type="font-awesome"
+                                            onPress={() => onDeleteItem(car.Id)}
+                                        />
+                                    </ListItem>                    
+                                ))}
+                            </ScrollView>
+                        ) : (
+                            <Text>No data available, check internet connection..</Text>
+                        )}
                     </>
-                    <ScrollView>
-                        {filteredList.map(car => (
-                            <ListItem key={car.Id} containerStyle={styles.listItem} bottomDivider>
-                                <ListItem.Content>
-                                    <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${car.Id} - ${car.Brand} - ${car.Model}`}</ListItem.Title>
-                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`Year: ${car.Year}`}</ListItem.Subtitle>
-                                </ListItem.Content>
-                                <Icon
-                                    name="trash"
-                                    color={"red"}
-                                    type="font-awesome"
-                                    onPress={() => onDeleteItem(car.Id)}
-                                />
-                            </ListItem>                    
-                        ))}
-                    </ScrollView>
                 </SafeAreaView>
             </SafeAreaView>
-        )
+        );
     } else {
         return (        
             <SafeAreaView style={styles.containerParent}>
@@ -92,16 +100,24 @@ const CarList = ({navigation}) => {
                                 value={filterText}
                                 onChangeText={updateList}/>
                         </SafeAreaView>
-                    <ScrollView>
-                        {filteredList.map(car => (
-                            <ListItem key={car.Id} containerStyle={styles.listItem} bottomDivider>
-                                <ListItem.Content>
-                                    <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${car.Id} - ${car.Brand} - ${car.Model}`}</ListItem.Title>
-                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`Year: ${car.Year}`}</ListItem.Subtitle>
-                                </ListItem.Content>
-                            </ListItem>                    
-                        ))}
-                    </ScrollView>
+                        <View style={styles.buttonContainer}>
+                            <Icon name="refresh" size={30} style={styles.iconRefresh} 
+                            color={theme.TEXT_COLOR}/>
+                        </View>
+                        {filteredList ? (
+                            <ScrollView>
+                                {filteredList.map(car => (
+                                    <ListItem key={car.id} containerStyle={styles.listItem} bottomDivider>
+                                        <ListItem.Content>
+                                            <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${car.id} - ${car.brand} - ${car.model}`}</ListItem.Title>
+                                            <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`Year: ${car.productionYear}`}</ListItem.Subtitle>
+                                        </ListItem.Content>
+                                    </ListItem>                    
+                                ))}
+                            </ScrollView>
+                        ) : (
+                            <Text>No data available, check internet connection..</Text>
+                        )}
                 </SafeAreaView>
             </SafeAreaView>
         )
@@ -158,19 +174,27 @@ const getStyles = (theme) => {
             color: theme.TEXT_COLOR,
         },
         buttonstyle: {
-            paddingTop: 5,
-            paddingBottom: 5,
+            paddingTop: 10,
+            paddingBottom: 10,
             marginBottom: 10,
-            width: '100%',
-            margin: 'auto',
+            width: '85%',
             backgroundColor: theme.BUTTON_COLOR,
             borderRadius: 20,
+            alignSelf: 'left',
             alignItems: 'center',
             justifyContent: 'center',
         },
         buttonText: {
             color: 'white'
         },
+        buttonContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        iconRefresh : {
+            justifyContent: 'flex-end',
+            marginLeft: 10,
+        }
     });
 
     return styles;

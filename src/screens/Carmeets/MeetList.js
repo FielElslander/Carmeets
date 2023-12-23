@@ -27,12 +27,14 @@ const Meetlist = ({navigation}) => {
     }
 
     useEffect(() => {
-        fetch('https://raw.githubusercontent.com/FielElslander/JsonTestData/main/Carmeets.json')
+        //fetch('https://raw.githubusercontent.com/FielElslander/JsonTestData/main/Carmeets.json')
+        fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/carmeets')
         .then(res => res.json())
         .then(data => {
             setMeets(data)
             setFilteredList(data)
-        });
+        })
+        .catch(err => {setMeets(null); setFilteredList(null);});
     }, []);
 
     const updatelist = (text) => {
@@ -68,19 +70,22 @@ const Meetlist = ({navigation}) => {
                                 style={styles.searchText}
                                 onChangeText={updatelist}/>
                         </SafeAreaView>
-                        <TouchableOpacity
-                            style={styles.buttonstyle}
-                            onPress={onNavigateCreateClick}>
-                            <Text style={styles.buttonText}>+</Text>
-                        </TouchableOpacity>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.buttonstyle} onPress={onNavigateCreateClick}>
+                                <Text style={styles.buttonText}>+</Text>
+                            </TouchableOpacity>
+                            <Icon name="refresh" size={30} style={styles.iconRefresh} 
+                            color={theme.TEXT_COLOR} />
+                        </View>
                     </>
                     {/* List with meets (clickable) */}
-                    <ScrollView>
+                    {filteredList ? (
+                        <ScrollView>
                         {filteredList.map(meet => (
-                            <ListItem key={meet.Id} containerStyle={styles.listItem} bottomDivider onPress={() => onMeetClick(meet)}>
+                            <ListItem key={meet.id} containerStyle={styles.listItem} bottomDivider onPress={() => onMeetClick(meet)}>
                                 <ListItem.Content>
-                                    <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${meet.Id} - ${meet.Name}`}</ListItem.Title>
-                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${meet.Date} - ${meet.Location}`}</ListItem.Subtitle>
+                                    <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${meet.id} - ${meet.name}`}</ListItem.Title>
+                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${meet.date} - ${meet.location}`}</ListItem.Subtitle>
                                     <TouchableOpacity style={styles.participateButton}
                                     onPress={() => joinMeeting(meet.id)}>
                                         <Text style={styles.buttonText}>Participate!</Text>
@@ -90,10 +95,13 @@ const Meetlist = ({navigation}) => {
                                     name="trash"
                                     type="font-awesome"
                                     color={"red"}
-                                    onPress={() => onDeleteItem(meet.Id)}/>
+                                    onPress={() => onDeleteItem(meet.id)}/>
                             </ListItem>
                         ))}
                     </ScrollView>
+                    ) : (
+                        <Text>No data available, check internet connection..</Text>
+                    )}
                 </SafeAreaView>
             </SafeAreaView>
         )
@@ -113,28 +121,33 @@ const Meetlist = ({navigation}) => {
                                 value={filterText}
                                 onChangeText={updatelist}/>
                         </SafeAreaView>
-                        <TouchableOpacity
-                            style={styles.buttonstyle}
-                            onPress={onNavigateCreateClick}>
-                            <Text style={styles.buttonText}>+</Text>
-                        </TouchableOpacity>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.buttonstyle} onPress={onNavigateCreateClick}>
+                                <Text style={styles.buttonText}>+</Text>
+                            </TouchableOpacity>
+                            <Icon name="refresh" size={30} style={styles.iconRefresh} 
+                            color={theme.TEXT_COLOR} />
+                        </View>
                     </View>
-                    {/* List with meets (clickable) */}
-                    <ScrollView>
+                    {filteredList ? (
+                        <ScrollView>
                         {filteredList.map(meet => (
-                            <ListItem key={meet.Id} containerStyle={styles.listItem} bottomDivider onPress={() => onMeetClick(meet)}>
+                            <ListItem key={meet.id} containerStyle={styles.listItem} bottomDivider onPress={() => onMeetClick(meet)}>
                                 <ListItem.Content>
-                                    <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${meet.Id} - ${meet.Name}`}</ListItem.Title>
-                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${meet.Date} - ${meet.Location}`}</ListItem.Subtitle>
+                                    <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${meet.id} - ${meet.name}`}</ListItem.Title>
+                                    <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${meet.date} - ${meet.location}`}</ListItem.Subtitle>
                                 </ListItem.Content>
                                 <Icon
                                     name="trash"
                                     type="font-awesome"
                                     color={"red"}
-                                    onPress={() => onDeleteItem(meet.Id)}/>
+                                    onPress={() => onDeleteItem(meet.id)}/>
                             </ListItem>
                         ))}
                     </ScrollView>
+                    ): (
+                        <Text>No data available, check internet connection..</Text>
+                    )}                    
                 </SafeAreaView>
             </SafeAreaView>
         )
@@ -173,10 +186,10 @@ const getStyles = (theme) => {
             paddingTop: 10,
             paddingBottom: 10,
             marginBottom: 10,
-            width: '100%',
-            margin: 'auto',
+            width: '85%',
             backgroundColor: theme.BUTTON_COLOR,
             borderRadius: 20,
+            alignSelf: 'left',
             alignItems: 'center',
             justifyContent: 'center',
         },
@@ -215,6 +228,14 @@ const getStyles = (theme) => {
             borderRadius: 20,
             alignItems: 'center',
             justifyContent: 'center',
+        },
+        buttonContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        iconRefresh : {
+            justifyContent: 'flex-end',
+            marginLeft: 10,
         }
       });
     

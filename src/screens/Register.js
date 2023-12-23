@@ -43,6 +43,11 @@ const Register = ({navigation}) => {
         }
         if (usernameText != "" && emailText != "" && passwordText != "") {
             if(emailText.indexOf("@") !== -1 && emailText.indexOf(".") !== -1) {   
+                /*fetch('http://localhost:8080/participant/Login?email=emailText&password=passwordText)
+                //post request
+                    .then(res => res.json())
+                    .then(data => {
+                LoginOrRegister(data);*/
                 LoginOrRegister(User);
                 setErrorText("");
                 navigation.navigate('Profile');

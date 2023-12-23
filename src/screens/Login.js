@@ -36,8 +36,10 @@ const Login = ({navigation}) => {
         }
         if (emailText != "" && passwordText != "") {
             if(emailText.indexOf("@") !== -1 && emailText.indexOf(".") !== -1) {   
-                //api call get by email
-                //user in login/register steken
+                /*fetch('http://localhost:8080/participant/Login?email=emailText&password=passwordText)
+                    .then(res => res.json())
+                    .then(data => {
+                LoginOrRegister(data);*/
                 //bij error ne error tonen
                 LoginOrRegister(User);
                 setErrorText("");
