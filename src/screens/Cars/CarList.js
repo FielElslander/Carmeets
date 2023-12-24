@@ -11,6 +11,7 @@ const CarList = ({navigation}) => {
     const [carList, setCars] = useState([]);
     const [filterText, setFilterText] = useState('');
     const [filteredList, setFilteredList] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     //theme
     const {theme} = useTheme();
@@ -19,7 +20,7 @@ const CarList = ({navigation}) => {
     //user
     const { user } = useUser();
 
-    useEffect(() => {
+    /*useEffect(() => {
         fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/cars')
         .then(res => res.json())
         .then(data => {
@@ -27,7 +28,24 @@ const CarList = ({navigation}) => {
             setFilteredList(data);
         })
         .catch(error => {setCars(null); setFilteredList(null);});
-    }, []);
+    }, []);*/
+
+    const fetchCars = async () => {
+        try{
+            const response = await fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/cars');
+            const data = await response.json();
+            setCars(data)
+            setFilteredList(data);
+        } catch (error) {
+            console.error("Error fetching cars: ", error)
+        } finally {
+            setRefreshing(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchCars();
+    }, [refreshing]);
 
     const updateList = (text) => {
         setFilterText(text);
@@ -79,7 +97,8 @@ const CarList = ({navigation}) => {
                             <TouchableOpacity style={styles.buttonstyle} onPress={onNavigateCreateClick}>
                                 <Text style={styles.buttonText}>+</Text>
                             </TouchableOpacity>
-                            <Icon name="refresh" size={30} style={styles.iconRefresh} color={theme.TEXT_COLOR} />
+                            <Icon name="refresh" size={30} style={styles.iconRefresh} color={theme.TEXT_COLOR}
+                            onPress={() => setRefreshing(true)} />
                         </View>
                         {filteredList ? (
                             <ScrollView>
@@ -122,7 +141,7 @@ const CarList = ({navigation}) => {
                         </SafeAreaView>
                         <View style={styles.buttonContainer}>
                             <Icon name="refresh" size={30} style={styles.iconRefresh} 
-                            color={theme.TEXT_COLOR}/>
+                            color={theme.TEXT_COLOR} onPress={() => setRefreshing(true)}/>
                         </View>
                         {filteredList ? (
                             <ScrollView>

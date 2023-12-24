@@ -13,6 +13,7 @@ const Meetlist = ({navigation}) => {
     const [meetlist, setMeets] = useState([]);
     const [filterText, setFilterText] = useState('');
     const [filteredList, setFilteredList] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     //theme
     const { theme } = useTheme();
@@ -26,16 +27,22 @@ const Meetlist = ({navigation}) => {
         navigation.navigate('MeetDetail', {carMeet: carMeet});
     }
 
+    const fetchCarmeets = async () => {
+        try {
+          const response = await fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/carmeets');
+          const data = await response.json();
+          setMeets(data);
+          setFilteredList(data);
+        } catch (error) {
+          console.error('Error fetching carmeets:', error);
+        } finally {
+          setRefreshing(false);
+        }
+      };
+
     useEffect(() => {
-        //fetch('https://raw.githubusercontent.com/FielElslander/JsonTestData/main/Carmeets.json')
-        fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/carmeets')
-        .then(res => res.json())
-        .then(data => {
-            setMeets(data)
-            setFilteredList(data)
-        })
-        .catch(err => {setMeets(null); setFilteredList(null);});
-    }, []);
+        fetchCarmeets();
+    }, [refreshing]);
 
     const updatelist = (text) => {
         setFilterText(text)
@@ -132,7 +139,7 @@ const Meetlist = ({navigation}) => {
                                 <Text style={styles.buttonText}>+</Text>
                             </TouchableOpacity>
                             <Icon name="refresh" size={30} style={styles.iconRefresh} 
-                            color={theme.TEXT_COLOR} />
+                            color={theme.TEXT_COLOR} onPress={() => setRefreshing(true)} />
                         </View>
                     </>
                     {/* List with meets (clickable) */}
@@ -189,7 +196,7 @@ const Meetlist = ({navigation}) => {
                                 <Text style={styles.buttonText}>+</Text>
                             </TouchableOpacity>
                             <Icon name="refresh" size={30} style={styles.iconRefresh} 
-                            color={theme.TEXT_COLOR} />
+                            color={theme.TEXT_COLOR} onPress={() => setRefreshing(true)} />
                         </View>
                     </View>
                     {filteredList ? (

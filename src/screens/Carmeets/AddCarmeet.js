@@ -27,7 +27,7 @@ const AddCarmeet = ({navigation}) => {
     const [nameText, setName] = useState("");    
     const [locationText, setLocation] = useState("");    
     const [priceText, setPrice] = useState("");
-    const [parkingspotsText, setParkingspots] = useState();
+    const [parkingspotsText, setParkingspots] = useState("");
     const [startTimeText, setStartTime] = useState("");
     const [endTimeText, setEndTime] = useState("");
     const [landText, setLand] = useState("");
@@ -40,7 +40,7 @@ const AddCarmeet = ({navigation}) => {
             location: locationText,
             land: landText,
             price: priceText,
-            parkingspots: parkingspotsText,
+            parkingspots: parseInt(parkingspotsText),
             startTime: startTimeText,
             endTime: endTimeText
         }
