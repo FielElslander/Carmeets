@@ -45,11 +45,68 @@ const CarGroupList = ({navigation}) => {
         console.log('OnCreateClick');
         navigation.navigate('CreateCarGroup')
     }
-    const onDeleteItem = (id) => {
+    const onDeleteItem = async (id) => {
         console.log("onDeleteItem")
+        try {
+            const response = await fetch(`http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/cargroups/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (response.ok) {
+                console.log('cargroup deleted successfully');
+            } else {
+                const responseData = await response.json();
+                console.error('Error deleting cargroup:', responseData);
+            }
+        } catch (error) {
+            console.error('Error during cargroup deletion:', error);
+        }
     }
-    const onJoinClick = (id) => {
-        console.log("onJoinClick");
+    const onJoinClick = async (id) => {
+        console.log('joingrouppressed');
+        try {
+            const response = await fetch(`http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/cargroups/AddMember/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user.id),
+            });
+    
+            if (response.ok) {
+                console.log('Participant added successfully to cargroup');
+            } else {
+                const responseData = await response.json();
+                console.error('Error adding participant to cargroup:', responseData);
+            }
+        } catch (error) {
+            console.error('Error during participant addition to cargroup:', error);
+        }
+    }
+
+    const onLeaveGroupClick = async (id) => {
+        console.log('leaveGroupPressed');
+        try {
+            const response = await fetch(`http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/cargroups/DeleteMember/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user.id),
+            });
+    
+            if (response.ok) {
+                console.log('Participant successfully left group');
+            } else {
+                const responseData = await response.json();
+                console.error('Error leaving cargroup:', responseData);
+            }
+        } catch (error) {
+            console.error('Error during participant leaving cargroup:', error);
+        }
     }
     
     if(user != null) {
@@ -82,10 +139,15 @@ const CarGroupList = ({navigation}) => {
                                 <ListItem.Content>
                                     <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${group.id} - ${group.name}`}</ListItem.Title>
                                     <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${group.location}`}</ListItem.Subtitle>
-                                    <TouchableOpacity style={styles.joinButton}
-                                    onPress={() => onJoinClick(group.id)}>
-                                        <Text style={styles.buttonText}>Join group!</Text>
-                                    </TouchableOpacity>
+                                    {group.members && group.members.map(member => member.id).includes(user.id) ? (
+                                        <TouchableOpacity style={styles.joinButton} onPress={() => onLeaveGroupClick(group.id)}>
+                                            <Text style={styles.buttonText}>Leave group..</Text>
+                                        </TouchableOpacity>
+                                    ) : (
+                                        <TouchableOpacity style={styles.joinButton} onPress={() => onJoinClick(group.id)}>
+                                            <Text style={styles.buttonText}>Join group!</Text>
+                                        </TouchableOpacity>
+                                    )}
                                 </ListItem.Content>
                                 <Icon
                                     name="trash"

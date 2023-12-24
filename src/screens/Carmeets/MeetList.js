@@ -47,12 +47,69 @@ const Meetlist = ({navigation}) => {
         navigation.navigate('CreateCarMeet')
     }
 
-    const onDeleteItem = (id) => {
+    const onDeleteItem = async (id) => {
         console.log("onDeleteItem")
+        try {
+            const response = await fetch(`http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/carmeets/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (response.ok) {
+                console.log('Carmeet deleted successfully');
+            } else {
+                const responseData = await response.json();
+                console.error('Error deleting carmeet:', responseData);
+            }
+        } catch (error) {
+            console.error('Error during carmeet deletion:', error);
+        }
     }
 
-    const joinMeeting = (id) => {
+    const joinMeeting = async (id) => {
         console.log("JoinMeetingpressed");
+        try {
+            const response = await fetch(`http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/carmeets/AddParticipant/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user.id),
+            });
+    
+            if (response.ok) {
+                console.log('Participant added successfully to carmeet');
+            } else {
+                const responseData = await response.json();
+                console.error('Error adding participant to carmeet:', responseData);
+            }
+        } catch (error) {
+            console.error('Error during participant addition to carmeet:', error);
+        }
+    }
+
+    const leaveMeeting = async (id) => {
+        console.log("leaveMeetingPressed");
+        try {
+            const response = await fetch(`http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/carmeets/DeleteParticipant/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user.id),
+            });
+    
+            if (response.ok) {
+                console.log('Participant successfully left meet');
+            } else {
+                const responseData = await response.json();
+                console.error('Error leaving carmeet:', responseData);
+            }
+        } catch (error) {
+            console.error('Error during participant leaving carmeet:', error);
+        }
     }
 
     if(user != null) {
@@ -86,10 +143,16 @@ const Meetlist = ({navigation}) => {
                                 <ListItem.Content>
                                     <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${meet.id} - ${meet.name}`}</ListItem.Title>
                                     <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`${meet.date} - ${meet.location}`}</ListItem.Subtitle>
-                                    <TouchableOpacity style={styles.participateButton}
-                                    onPress={() => joinMeeting(meet.id)}>
-                                        <Text style={styles.buttonText}>Participate!</Text>
-                                    </TouchableOpacity>
+                                    {meet.participants && meet.participants.map(participant => participant.id).includes(user.id) ? (
+                                        <TouchableOpacity style={styles.participateButton} onPress={() => leaveMeeting(meet.id)}>
+                                            <Text style={styles.buttonText}>Leave meet..</Text>
+                                        </TouchableOpacity>
+                                    ) : (
+                                        <TouchableOpacity style={styles.participateButton}
+                                            onPress={() => joinMeeting(meet.id)}>
+                                                <Text style={styles.buttonText}>Participate!</Text>
+                                        </TouchableOpacity>
+                                    )}                                    
                                 </ListItem.Content>
                                 <Icon
                                     name="trash"

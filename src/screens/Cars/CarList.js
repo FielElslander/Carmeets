@@ -39,8 +39,26 @@ const CarList = ({navigation}) => {
         navigation.navigate('CreateCar')
     }
 
-    const onDeleteItem = (id) => {
+    const onDeleteItem = async (id) => {
         console.log("onDeleteItem")
+        try {
+            const response = await fetch(`http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/participants/DeleteCar/${user.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(id),
+            });
+    
+            if (response.ok) {
+                console.log('Car successfully deleted');
+            } else {
+                const responseData = await response.json();
+                console.error('Error deleting car:', responseData);
+            }
+        } catch (error) {
+            console.error('Error during car deletion:', error);
+        }
     }
 
     if (user != null) {
@@ -71,12 +89,14 @@ const CarList = ({navigation}) => {
                                             <ListItem.Title style={{color: theme.TEXT_COLOR}}>{`${car.id} - ${car.brand} - ${car.model}`}</ListItem.Title>
                                             <ListItem.Subtitle style={{color: theme.TEXT_COLOR}}>{`Year: ${car.productionYear}`}</ListItem.Subtitle>
                                         </ListItem.Content>
-                                        <Icon
-                                            name="trash"
-                                            color={"red"}
-                                            type="font-awesome"
-                                            onPress={() => onDeleteItem(car.Id)}
-                                        />
+                                        {car.ownerId === user.id && (
+                                            <Icon
+                                                name="trash"
+                                                color={"red"}
+                                                type="font-awesome"
+                                                onPress={() => onDeleteItem(car.id)}
+                                            />
+                                        )}
                                     </ListItem>                    
                                 ))}
                             </ScrollView>
