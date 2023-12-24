@@ -26,9 +26,9 @@ const AddCar = ({navigation}) => {
     //cargroup variables
     const [BrandText, setBrandText]  = useState("");
     const [ModelText, setModelText] = useState("");
-    const [YearText, setYearText] = useState();
-    const [HorsepowerText, setHorsepowerText] = useState();
-    const [torqueText, setTorqueText] = useState();
+    const [YearText, setYearText] = useState("");
+    const [HorsepowerText, setHorsepowerText] = useState("");
+    const [torqueText, setTorqueText] = useState("");
 
     const onCreateClick = async () => {
         console.log('onCreateClicked.called');
@@ -36,17 +36,27 @@ const AddCar = ({navigation}) => {
         const car = {
             brand: BrandText,
             model: ModelText,
-            productionYear: YearText,
-            horsepower: HorsepowerText,
-            torque: torqueText,
+            productionYear: parseInt(YearText),
+            horsepower: parseInt(HorsepowerText),
+            torque: parseInt(torqueText),
             ownerId: user.id
         }
 
+        console.log(car);
+        console.log(BrandText);
+        console.log(ModelText);
+        console.log(YearText);
+        console.log(HorsepowerText);
+        console.log(torqueText);
+
         if(BrandText != "" && ModelText != "" && YearText != 0 && HorsepowerText != 0 && torqueText != 0){
-            if(!typeof YearText == "string" && !typeof HorsepowerText == "string" && !typeof torqueText == "string"){
+            console.log("Passed first");
+            if(!isNaN(YearText) && !isNaN(HorsepowerText) && !isNaN(torqueText)){
+                console.log("Passed second");
                 try {
+                    console.log("json string: " + JSON.stringify(car))
                     const response = await fetch('http://carsxcoffeeapi-6dd54f16adfd.herokuapp.com/participants/AddCar/' + user.id, {
-                      method: 'POST',
+                      method: 'PATCH',
                       headers: {
                         'Content-Type': 'application/json',
                       },
@@ -56,7 +66,7 @@ const AddCar = ({navigation}) => {
                     if (response.ok) {
                       navigation.navigate('cars');
                     } else {
-                      const responseData = await response.json();
+                      var responseData = await response.json();
                       setErrorText(responseData.message);
                     }
                   } catch (error) {
@@ -64,7 +74,11 @@ const AddCar = ({navigation}) => {
                     setErrorText('Failed to create car');
                   }
             }
+            else {
+                setErrorText("Year, HP or torque must be numbers!");
+            }
         } else {
+            console.log("error");
             setErrorText("Fill in all required fields");
         }
     }
@@ -124,6 +138,7 @@ const AddCar = ({navigation}) => {
                             value={YearText}
                             onChangeText={onChangeYearText}
                             type='number'
+                            inputMode='numeric'
                         />
                     </View>
                     <View style={styles.inputContainer}>
@@ -133,7 +148,7 @@ const AddCar = ({navigation}) => {
                             placeholder='horsepower'
                             value={HorsepowerText}
                             onChangeText={onChangeHorsepowerText}
-                            keyboardType='numeric'
+                            inputMode='numeric'
                         />
                     </View>
                     <View style={styles.inputContainer}>
@@ -143,7 +158,7 @@ const AddCar = ({navigation}) => {
                             placeholder='torque'
                             value={torqueText}
                             onChangeText={onChangeTorqueText}
-                            keyboardType='numeric'
+                            inputMode='numeric'
                         />
                     </View>
                     <View>
