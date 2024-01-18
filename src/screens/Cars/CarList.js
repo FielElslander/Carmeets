@@ -49,7 +49,7 @@ const CarList = ({navigation}) => {
 
     const updateList = (text) => {
         setFilterText(text);
-        setFilteredList(carList.filter(car => car.Brand.toLowerCase().includes(text.toLowerCase()) || car.Model.toLowerCase().includes(text.toLowerCase())));
+        setFilteredList(carList.filter(car => car.brand.toLowerCase().includes(text.toLowerCase()) || car.model.toLowerCase().includes(text.toLowerCase())));
     };
 
     const onNavigateCreateClick = () => {

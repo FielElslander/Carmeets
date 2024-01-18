@@ -45,8 +45,11 @@ const Meetlist = ({navigation}) => {
     }, [refreshing]);
 
     const updatelist = (text) => {
+        console.log(meetlist);
+        console.log(filteredList)
+        console.log(text);
         setFilterText(text)
-        setFilteredList(meetlist.filter(meet => meet.Name.toLowerCase().includes(text.toLowerCase())));
+        setFilteredList(meetlist.filter(meet => meet.name.toLowerCase().includes(text.toLowerCase())));
     }
 
     const onNavigateCreateClick = () => {
